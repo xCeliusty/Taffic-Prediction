@@ -10,6 +10,12 @@ import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.
 import 'package:search_map_place_updated/search_map_place_updated.dart';
 import 'package:permission_asker/permission_asker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:busgo/trackingdirectionsmap/secrets.dart';
+//import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+//import 'package:google_api_headers/google_api_headers.dart';
+//import 'package:google_maps_webservice/places.dart';
+
+
 
 class FromTo extends StatefulWidget {
   static const routeName = '/FromTo';
@@ -20,8 +26,21 @@ class FromTo extends StatefulWidget {
 class MapFromToState extends State<FromTo> {
   static const routeName = '/FromTo';
   Completer<GoogleMapController> _controller = Completer();
-  TextEditingController _originController = TextEditingController();
-  TextEditingController _destinationController = TextEditingController();
+  //TextEditingController _originController = TextEditingController();
+ // TextEditingController _destinationController = TextEditingController();
+  late GoogleMapController mapController;
+
+  late String originInputString = '';
+  late String destinationInputString ;
+//Null emptyNull=null;
+
+ // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
+  var  DistanceofLocation;
+ //= LocationService().getDistance("miu", "guc");
+   var TimeofLocation;
+ //= LocationService().getTime("miu", "guc");
+
+ late var directions;
 
   Set<Marker> _markers = Set<Marker>();
   Set<Polygon> _polygons = Set<Polygon>();
@@ -30,13 +49,19 @@ class MapFromToState extends State<FromTo> {
 
   int _polygonIdCounter = 1;
   int _polylineIdCounter = 1;
+  late String place1;
+  late String place2;
+ 
+
+  
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(30.033333, 31.233334),
     zoom: 14.4746,
   );
 
-  @override
+  //get yesonnn => null;
+
   void initState() {
     super.initState();
 
@@ -49,13 +74,21 @@ class MapFromToState extends State<FromTo> {
         Marker(
           markerId: MarkerId('marker'),
           position: point,
+          /*onTap: () {
+          print("orginInput");
+        //  var XR=Text('$point');
+   var t!=orginInput;
+         return(<orginInput!>);
+ late String OrginInput;
+ late String DestinationInput;
+         }, */
         ),
       );
     });
   }
 
   void _setPolygon() {
-    final String polygonIdVal = 'polygon_$_polygonIdCounter';
+    //final String polygonIdVal = 'polygon_$_polygonIdCounter';
     _polygonIdCounter++;
   }
 
@@ -77,127 +110,258 @@ class MapFromToState extends State<FromTo> {
     );
   }
 
-  late String orginInput;
-  late String DestinationInput;
-
   @override
   Widget build(BuildContext context) {
+    // ignore: unnecessary_new
     return new Scaffold(
-      drawer: AppDrawer(),
-      // backgroundColor: Colors.white,
+       drawer: AppDrawer(),
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Enter orgin and destination'),
         backgroundColor: Colors.blueGrey,
       ),
-      body: Column(
-        children: [
-          Row(
+      body: PermissionAskerBuilder(
+        permissions: [
+          Permission.location,
+          Permission.notification
+          //Permission.
+          //Permission.camera,
+         // Permission.microphone,
+
+        ],
+        grantedBuilder: (context) => Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: double.infinity,
+          //color: viewModel.color,
+          child: Column(
             children: [
-              Expanded(
+              SingleChildScrollView(
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: _originController,
-                      decoration: InputDecoration(hintText: ' Origin'),
-                      onChanged: (orginInput) {
-                        print(orginInput);
+//                 TextFormField(
+//                onChanged: ( place) async {
+// //var place =
+//  await PlacesAutocomplete.show(
+//                           context: context,
+//                           apiKey:Secrets.API_KEY,
+//                           //mode: Mode.overlay,
+//                           types: [],
+//                           language:['en','ar'],
+//                           strictbounds: false,
+//                           components: [Component(Component.country, 'Eg')],
+//                                       //google_map_webservice package
+//                           onError: (err){
+//                              print(err);
+//                           }
+//                       );
+
+//                           },
+
+//              ),
+                    SearchMapPlaceWidget(
+                      hasClearButton: true,
+                      placeType: PlaceType.address,
+                      // controller: _originController,
+                      placeholder: 'Enter the location',
+                      apiKey: Secrets.API_KEY,
+                     // location: LatLng(30.033333, 31.233334),
+                     // radius: 5000,
+                      //language:const ['en', 'ar'],
+                      onSelected: (Place place) async {
+                        //assert(place != null);
+                        //Geolocation? geolocation = await place.geolocation;
+                        place1 = place.description!;
+                        print(place);
+                        // mapController.animateCamera(
+                        //   CameraUpdate.newLatLng(geolocation!.coordinates));
+                        //mapController.animateCamera(
+                        //  CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
                       },
                     ),
-                    TextFormField(
-                      controller: _destinationController,
-                      decoration: InputDecoration(hintText: ' Destination'),
-                      onChanged: (DestinationInput) {
-                        print(DestinationInput);
+                    SearchMapPlaceWidget(
+                      hasClearButton: true,
+                      //language: const {'en','ar'},
+                      placeType: PlaceType.address,
+                      // controller: _originController,
+                      placeholder: 'Enter the location',
+                      apiKey: Secrets.API_KEY,
+                    location: LatLng(30.033333, 31.233334),
+                    radius: 5000,
+                     strictBounds:true,
+                      onSelected: (place) async {
+                        //Geolocation? geolocation = await place.geolocation;
+                        place2 = place.description!;
+                        print(place);
+
+                        // mapController.animateCamera(
+                        //   CameraUpdate.newLatLng(geolocation!.coordinates));
+                        //mapController.animateCamera(
+                        //  CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
                       },
                     ),
-                    ButtonBar(
-                      children: [
-                        //  TextButton(onPressed: () {}, child: Text("Cancle")),
-                        ElevatedButton(
-                          onPressed: () async {
-                            Navigator.pushNamed(context, '/TrafficSummary');
-                          },
-                          child: Text("Check traffic"),
-                        ),
-                      ],
-                    ) /*Text(
-                        '$Time()',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                        ),
-                      ),*/
+                   
+
+                    IconButton(
+                      onPressed: () async {
+                        directions =
+                            await LocationService().getDirections(place1, place2
+                                //  _originController.text,
+                                // _destinationController.text,
+
+                                );
+
+                            DistanceofLocation=await LocationService().getDistance(place1,place2);
+                               // TimeofLocation=await LocationService().getTime(place1,place2);
+                             TimeofLocation= await LocationService().getTime(place1,place2);
+
+                        _goToPlace(
+                          directions['start_location']['lat'],
+                          directions['start_location']['lng'],
+                          directions['bounds_ne'],
+                          directions['bounds_sw'],
+                        );
+
+                        _setPolyline(
+                          directions['polyline_decoded'],
+                        );
+                       setState(() {
+                        //  DistanceofLocation= LocationService().getDistance(place1,place2) ;
+                       
+                TimeofLocation;
+                       
+                       });
+                      },
+                      icon: Icon(Icons.search),
+                      color: Colors.pink,
+                    ),
                   ],
                 ),
               ),
-              IconButton(
-                  onPressed: () async {
-                    var directions = await LocationService().getDirections(
-                      // var o=_originController.text;
-                      _originController.text,
-                      _destinationController.text,
-                      // ignore: avoid_print
-                      // print(_originController.text);
-                    );
-                    _goToPlace(
-                      directions['start_location']['lat'],
-                      directions['start_location']['lng'],
-                      directions['bounds_ne'],
-                      directions['bounds_sw'],
-                    );
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
 
-                    _setPolyline(directions['polyline_decoded']);
+                        //                       TextFormField(
+                        //                         controller: _originController, 
+                        //                         decoration: InputDecoration(hintText: ' Origin'),
+
+                        //                         onChanged: (originInput) async {
+                        //                          // getSuggestion(orginInput);
+
+                        //                           print(originInput);
+                        //                           originInputString=originInput;
+                        //                           //print("the ssssssssssssssssssssssssssssss $originInputString");
+                        //                           print("the_origidddnController $_originController");
+
+                        //                         },
+                        //                       ),
+                        //                       TextFormField(
+                        //                         controller: _destinationController,
+                        //                         decoration: InputDecoration(hintText: ' Destination'),
+                        //                         onChanged: (destinationInput) {
+                        //                         //  getSuggestion(DestinationInput);
+                        //                           print(destinationInput);
+
+                        // destinationInputString=destinationInput;
+                        //                           print("the inputtt is $_destinationController.text");
+                        //                         },
+                        //                        ),
+                     // if(TimeofLocation!=null && DistanceofLocation!=null){
+                        Container(
+                          child: TimeofLocation!=null? Text(
+                            '${TimeofLocation} ${DistanceofLocation} ',
+                            //The distance is DistanceofLocation & $TimeofLocation
+                            //_originController.text, _destinationController.text
+                            //"miu","guc"
+
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
+                          ):Text(''),
+                        ),
+                   //   },
+
+                      ],
+                    ),
+                  ),
+
+                  // IconButton(
+                  //     onPressed: () async {
+                  //       directions = await LocationService().getDirections(
+                  //    place1, place2
+                  //       //  _originController.text,
+                  //        // _destinationController.text,
+
+                  //       );
+                  //       _goToPlace(
+                  //         directions['start_location']['lat'],
+                  //         directions['start_location']['lng'],
+                  //         directions['bounds_ne'],
+                  //         directions['bounds_sw'],
+                  //       );
+
+                  //       _setPolyline(directions['polyline_decoded'],
+
+                  //       );
+                  //     },
+                  //     icon: Icon(Icons.search),
+                  //     color: Colors.pink,
+                  //     ),
+                ],
+              ),
+              Expanded(
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  markers: _markers,
+                  //title:"hello",
+                  polygons: _polygons,
+                  polylines: _polylines,
+                  initialCameraPosition: _kGooglePlex,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  // compassEnabled:true,
+                  //mapToolbarEnabled:true,
+
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
                   },
-                  icon: Icon(Icons.search),
-                  color: Colors.pink),
+                  onTap: (point) {
+                    setState(() {
+                      polygonLatLngs.add(point);
+                      _setPolygon();
+                    });
+                  },
+                ),
+              ),
             ],
           ),
-          Expanded(
-            child: GoogleMap(
-              mapType: MapType.normal,
-              markers: _markers,
-              polygons: _polygons,
-              polylines: _polylines,
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              onTap: (point) {
-                setState(() {
-                  polygonLatLngs.add(point);
-                  _setPolygon();
-                });
-              },
-            ),
+        ),
+        notGrantedBuilder: (context, notGrantedPermissions) => Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Not granted permissions:'),
+              for (final p in notGrantedPermissions) Text(p.toString())
+            ],
           ),
-
-          ///ME ROLA DYFAH
-
-          /* Visibility(
-                         //   visible: _placeDistance == null ? false : true,
-                            child: Text(
-                              'DISTANCE: $Time km',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),*/
-        ],
+        ),
+        notGrantedListener: (notGrantedPermissions) =>
+            print('Not granted:\n$notGrantedPermissions'),
       ),
     );
   }
 
   Future<void> _goToPlace(
-    // Map<String, dynamic> place,
     double lat,
     double lng,
     Map<String, dynamic> boundsNe,
     Map<String, dynamic> boundsSw,
   ) async {
-    // final double lat = place['geometry']['location']['lat'];
-    // final double lng = place['geometry']['location']['lng'];
-
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
@@ -215,51 +379,4 @@ class MapFromToState extends State<FromTo> {
     );
     _setMarker(LatLng(lat, lng));
   }
-
-/*
-Future<LatLng?> getUserLocation() async {
-
-  LocationManager.LocationData? orginInput;
-
-  final location = LocationManager.Location();
-
-  try {
-
-    orginInput = await location.getLocation();
-
-    final lat = orginInput.latitude;
-
-    final lng = orginInput.longitude;
-
-    final center = LatLng(lat!, lng!);
-
-    return center;
-    print('the center is $center');
-
-  } on Exception catch (_) {
-      print("throwing new error");
-      throw Exception("Error on server");
-
-}
-}*/
-
-// void Time() async {
-//   Dio dio = new Dio();
-//   //var dio = Dio();
-//   var API_KEY='';
-//   final response = await dio.
-//   //get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=orginInput&destinations=DestinationInput&key=API_KEY");
-//   get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C,-73.9976592&key=API_KEY");
-//    //printvalue=response.data;
-//    late String orginInput;
-//  late String DestinationInput;
-//   return (response.data);
-// }
-// void Times(){
-
-// Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-// List<Placemark> placemark = await Geolocator().placemarkFromAddress("Gronausestraat 710, Enschede");
-//  https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
-
-// }
 }
