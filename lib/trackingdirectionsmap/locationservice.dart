@@ -144,53 +144,13 @@ if (response.statusCode == 200) {
     throw Exception('An error occurred getting places nearby');
     return y;
   }
-      ////},
-    //);
-    
+      
 
 
 
   }
  
 
-/*void Time() async {
-  Dio dio = new Dio();
-  //var dio = Dio();
-  var API_KEY='';
-  ////final response = await dio.
-  //get("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$origin&destinations=$destination&departure_time=now&key=$key";);
-  get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C,-73.9976592&key=API_KEY");
-   //printvalue=response.data;
-   late String orginInput;
- late String DestinationInput;
-  return (response.data);
-}*/
-
-
-      ///String origin, String destination
-//    Future<Map<String, dynamic>> getDistancematrix( String origin, String destination
-//       )
-//    async
-//     {
-// final  String url='https://maps.googleapis.com/maps/api/distancematrix/json?destinations=$destination&origins=$origin&key=$key&departure_time=now';
-// //const  String url= 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=849VCWC8%2BR9&destinations=San%20Francisco&key=$key';
-// var json;
-//   //var response = await http.get(Uri.parse(url));
-//   var response=await http.get(Uri.parse(url));
-//     //json = convert.jsonDecode(response.body);
-//    // return response;
-//     //print( json);
-//   print ("the rsponse of diasnace matrix $response");
-
-//   if (response.statusCode == 200) {
-//      json = convert.jsonDecode(response.body);
-//     // json= response.body as String;
-//    // print ('Response body: ${response.body}'); 
-//     return json;
-//   } else {
-//     throw Exception('An error occurred getting places nearby');
-//   }
-// }
 
 }
 
