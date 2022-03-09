@@ -8,6 +8,10 @@ import 'package:busgo/pages/edit_profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import './screens/maps.dart';
+//import 'package:busgo/pages/calender.dart';
+
+
+//import 'package:nepali_date_picker/nepali_date_picker.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Fast Routing',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         accentColor: Colors.white,
@@ -37,8 +41,8 @@ class MyApp extends StatelessWidget {
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
       },
-      home: const Splash(),
-      //home: FromTo(),
+     home: const Splash(),
+    // home: Calender(),
     );
   }
 }
