@@ -1,5 +1,6 @@
 import 'package:busgo/authentication/auth_form.dart';
 import 'package:busgo/authentication/auth_screen.dart';
+import 'package:busgo/pages/calender.dart';
 import 'package:busgo/pages/traffic_ui.dart';
 
 import 'package:busgo/screens/maps.dart';
@@ -37,11 +38,13 @@ class MyApp extends StatelessWidget {
 
         //FromTo.routeName: (context) => const FromTo(),
         Editprofile.routeName: (context) => Editprofile(),
+        '/Calender': (context) => Calender(),
 
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
       },
-     home: const Splash(),
+    // home: const Splash(),
+    home:FromTo(), 
     // home: Calender(),
     );
   }

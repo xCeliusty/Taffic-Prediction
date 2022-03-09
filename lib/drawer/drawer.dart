@@ -40,10 +40,11 @@ class AppDrawer extends StatelessWidget {
           ),
            ListTile(
             leading: const Icon(Icons.exit_to_app),
-            title: const Text("Calendar"),
+            title: const Text("Calender"),
             onTap: ()  {
  
-              Navigator.of(context).pushNamed(Calender.routeName);
+             // Navigator.of(context).pushNamed(Calender.routeName);
+               Navigator.pushNamed(context, '/Calender');
             },
           ),
           ListTile(
