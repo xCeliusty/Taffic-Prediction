@@ -118,10 +118,7 @@ class MapFromToState extends State<FromTo> {
       body: PermissionAskerBuilder(
         permissions: [
           Permission.location,
-          //Permission.notification
-          //Permission.
-          //Permission.camera,
-         // Permission.microphone,
+          
 
         ],
         grantedBuilder: (context) => Container(
