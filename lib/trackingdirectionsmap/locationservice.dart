@@ -2,7 +2,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:busgo/trackingdirectionsmap/secrets.dart';
-import 'package:dio/dio.dart';
 class LocationService {
 
  static const  key=Secrets.API_KEY;
