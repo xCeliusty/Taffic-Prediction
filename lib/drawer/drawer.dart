@@ -2,12 +2,12 @@
 
 import 'package:busgo/authentication/auth_screen.dart';
 import 'package:busgo/pages/edit_profile.dart';
-import 'package:busgo/pages/edit_profile.dart';
-
 import 'package:busgo/screens/maps.dart';
-import 'package:busgo/pages/edit_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../pages/calender.dart';
+
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -31,17 +31,19 @@ class AppDrawer extends StatelessWidget {
           ),
           
           
-          
-        
-          
           ListTile(
             leading: const Icon(Icons.remove_red_eye),
             title: const Text("view edit profile"),
             onTap: () {
-              
-          
-              
               Navigator.of(context).pushNamed(Editprofile.routeName);
+            },
+          ),
+           ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text("Calendar"),
+            onTap: ()  {
+ 
+              Navigator.of(context).pushNamed(Calender.routeName);
             },
           ),
           ListTile(
@@ -52,6 +54,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(AuthScreen.routeName);
             },
           ),
+          
         ],
       ),
     );
