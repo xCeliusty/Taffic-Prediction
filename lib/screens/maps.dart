@@ -26,19 +26,13 @@ class FromTo extends StatefulWidget {
 class MapFromToState extends State<FromTo> {
   static const routeName = '/FromTo';
   Completer<GoogleMapController> _controller = Completer();
-  //TextEditingController _originController = TextEditingController();
- // TextEditingController _destinationController = TextEditingController();
   late GoogleMapController mapController;
 
   late String originInputString = '';
   late String destinationInputString ;
-//Null emptyNull=null;
 
- // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
   var  DistanceofLocation;
- //= LocationService().getDistance("miu", "guc");
    var TimeofLocation;
- //= LocationService().getTime("miu", "guc");
 
  late var directions;
 
