@@ -6,9 +6,11 @@ import 'package:busgo/trackingdirectionsmap/locationservice.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:busgo/trackingdirectionsmap/secrets.dart';
-import 'package:permission_asker/permission_asker.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:search_map_place_updated/search_map_place_updated.dart';
+import 'package:permission_asker/permission_asker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:busgo/trackingdirectionsmap/secrets.dart';
 //import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 //import 'package:google_api_headers/google_api_headers.dart';
 //import 'package:google_maps_webservice/places.dart';
@@ -24,19 +26,13 @@ class FromTo extends StatefulWidget {
 class MapFromToState extends State<FromTo> {
   static const routeName = '/FromTo';
   Completer<GoogleMapController> _controller = Completer();
-  //TextEditingController _originController = TextEditingController();
- // TextEditingController _destinationController = TextEditingController();
   late GoogleMapController mapController;
 
   late String originInputString = '';
   late String destinationInputString ;
-//Null emptyNull=null;
 
- // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
   var  DistanceofLocation;
- //= LocationService().getDistance("miu", "guc");
    var TimeofLocation;
- //= LocationService().getTime("miu", "guc");
 
  late var directions;
 
@@ -122,10 +118,7 @@ class MapFromToState extends State<FromTo> {
       body: PermissionAskerBuilder(
         permissions: [
           Permission.location,
-          Permission.notification
-          //Permission.
-          //Permission.camera,
-         // Permission.microphone,
+          
 
         ],
         grantedBuilder: (context) => Container(

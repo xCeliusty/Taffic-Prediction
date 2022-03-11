@@ -1,5 +1,6 @@
 import 'package:busgo/authentication/auth_form.dart';
 import 'package:busgo/authentication/auth_screen.dart';
+import 'package:busgo/pages/calender.dart';
 import 'package:busgo/pages/traffic_ui.dart';
 
 import 'package:busgo/screens/maps.dart';
@@ -12,6 +13,7 @@ import './screens/maps.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -33,12 +35,13 @@ class MyApp extends StatelessWidget {
 
         //FromTo.routeName: (context) => const FromTo(),
         Editprofile.routeName: (context) => Editprofile(),
+        '/Calender': (context) => Calender(),
 
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
       },
-      home: const Splash(),
-      //home: FromTo(),
+      // home: const Splash(),
+      home: FromTo(),
     );
   }
 }

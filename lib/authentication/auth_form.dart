@@ -245,25 +245,22 @@ class _AuthFormState extends State<AuthForm> {
                               print(e);
                             }
 
-                            DocumentReference ref = FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(FirebaseAuth.instance.currentUser!.uid);
-                            FirebaseFirestore.instance.runTransaction(
-                              (transaction) async {
-                                DocumentSnapshot snapshot =
-                                    await transaction.get(ref);
-                                if (!snapshot.exists) {
-                                  ref.set(
-                                    {
-                                      'username': _username,
-                                      'email': _email,
-                                      'phoneNumber': _phoneNumber,
-                                      'address': _address,
-                                    },
-                                  );
-                                }
-                              },
-                            );
+                            // DocumentReference ref = FirebaseFirestore.instance.collection('users')
+                            // .doc(FirebaseAuth.instance.currentUser!.uid);
+                            // FirebaseFirestore.instance.runTransaction(
+                            //   (transaction) async {
+                            //     DocumentSnapshot snapshot =await transaction.get(ref);
+                            //     if (!snapshot.exists) {
+                            //       ref.set(
+                            //         {
+                            //           'username': _username,
+                            //           'email': _email,
+                            //           'phoneNumber': _phoneNumber,
+                            //         },
+                            //       );
+                            //     }
+                            //   },
+                            // );
 
                             _login = true;
                           }
