@@ -1,10 +1,8 @@
  import 'package:busgo/screens/maps.dart';
 import 'package:busgo/screens/maps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:busgo/admin/admin_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthForm extends StatefulWidget {
@@ -245,25 +243,22 @@ class _AuthFormState extends State<AuthForm> {
                               print(e);
                             }
 
-                            DocumentReference ref = FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(FirebaseAuth.instance.currentUser!.uid);
-                            FirebaseFirestore.instance.runTransaction(
-                              (transaction) async {
-                                DocumentSnapshot snapshot =
-                                    await transaction.get(ref);
-                                if (!snapshot.exists) {
-                                  ref.set(
-                                    {
-                                      'username': _username,
-                                      'email': _email,
-                                      'phoneNumber': _phoneNumber,
-                                      'address': _address,
-                                    },
-                                  );
-                                }
-                              },
-                            );
+                            // DocumentReference ref = FirebaseFirestore.instance.collection('users')
+                            // .doc(FirebaseAuth.instance.currentUser!.uid);
+                            // FirebaseFirestore.instance.runTransaction(
+                            //   (transaction) async {
+                            //     DocumentSnapshot snapshot =await transaction.get(ref);
+                            //     if (!snapshot.exists) {
+                            //       ref.set(
+                            //         {
+                            //           'username': _username,
+                            //           'email': _email,
+                            //           'phoneNumber': _phoneNumber,
+                            //         },
+                            //       );
+                            //     }
+                            //   },
+                            // );
 
                             _login = true;
                           }
