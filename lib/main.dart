@@ -6,8 +6,12 @@ import 'package:busgo/pages/traffic_ui.dart';
 import 'package:busgo/screens/maps.dart';
 import 'package:busgo/pages/splash_screen.dart';
 import 'package:busgo/pages/edit_profile.dart';
+import 'package:busgo/screens/test.dart';
+import 'package:busgo/sevices/traffic_service.dart';
+// import 'package:busgo/services/traffic_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './screens/maps.dart';
 
 Future<void> main() async {
@@ -39,6 +43,8 @@ class MyApp extends StatelessWidget {
 
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
+        '/Query': (context) => Query(),
+
       },
       // home: const Splash(),
       home: FromTo(),
