@@ -18,7 +18,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TrafficService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -46,8 +53,8 @@ class MyApp extends StatelessWidget {
         '/Query': (context) => Query(),
 
       },
-      // home: const Splash(),
-      home: FromTo(),
+       home: const Splash(),
+      // home: Query(),
     );
   }
 }

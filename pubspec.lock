@@ -56,33 +56,45 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "3.1.10"
 =======
     version: "3.1.9"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "3.1.9"
+>>>>>>> Stashed changes
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "5.5.1"
 =======
     version: "5.5.0"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "5.5.0"
+>>>>>>> Stashed changes
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "2.6.10"
 =======
     version: "2.6.9"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "2.6.9"
+>>>>>>> Stashed changes
   collection:
     dependency: transitive
     description:
@@ -131,66 +143,90 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "3.3.10"
 =======
     version: "3.3.8"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "3.3.8"
+>>>>>>> Stashed changes
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "6.2.1"
 =======
     version: "6.2.0"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "6.2.0"
+>>>>>>> Stashed changes
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "3.3.9"
 =======
     version: "3.3.8"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "3.3.8"
+>>>>>>> Stashed changes
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "1.13.1"
 =======
     version: "1.12.0"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "1.12.0"
+>>>>>>> Stashed changes
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "4.2.5"
 =======
     version: "4.2.4"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "4.2.4"
+>>>>>>> Stashed changes
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "1.6.1"
 =======
     version: "1.6.0"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "1.6.0"
+>>>>>>> Stashed changes
   flutter:
     dependency: "direct main"
     description: flutter
@@ -367,8 +403,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.3"
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Stashed changes
   nested:
     dependency: transitive
     description:
@@ -376,7 +415,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+<<<<<<< Updated upstream
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+>>>>>>> Stashed changes
   package_info_plus:
     dependency: transitive
     description:
@@ -577,11 +619,15 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     version: "2.4.1"
 =======
     version: "2.3.6"
 >>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
+=======
+    version: "2.3.6"
+>>>>>>> Stashed changes
   xml:
     dependency: transitive
     description:
@@ -597,5 +643,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.16.0 <3.0.0"
+  dart: ">=2.14.0 <3.0.0"
   flutter: ">=2.5.0"

@@ -46,6 +46,7 @@ dependencies:
   dio: ^4.0.4
   nepali_utils: ^3.0.3
   nepali_date_picker: ^5.2.0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   firebase_core: ^1.10.0
   firebase_auth: ^3.2.0
@@ -53,6 +54,14 @@ dependencies:
   #search_map_place_updated: ^0.0.4
 
 
+=======
+  firebase_core: ^1.12.0
+  firebase_auth: ^3.3.8
+  cloud_firestore: ^3.1.9
+  provider: ^6.0.1
+  syncfusion_flutter_calendar: ^19.4.55
+  simple_gesture_detector:
+>>>>>>> Stashed changes
 
 =======
   firebase_core: ^1.12.0

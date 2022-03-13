@@ -32,7 +32,7 @@ class _AuthFormState extends State<AuthForm> {
       _formKey.currentState!.save();
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Data submitted successfully")));
-      Navigator.of(context).pushNamed(FromTo.routeName);
+      // Navigator.of(context).pushNamed(FromTo.routeName);
       // Navigator.pushNamed(context, '/FromTo');
       // if (_email == "admin@admin.com" && _password == "admin123") {
       //   Navigator.of(context).pushNamed(FromTo.routeName);
@@ -64,10 +64,13 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.directions_bus,
-                    size: 50,
-                  ),
+                 ClipRRect(
+                                  //borderRadius: new BorderRadius.circular(8.0),
+                                  child: Image.asset(
+                                    'assets/app_logo.png',
+                                   // height: 50,
+                                  ),
+                                ),
                   if (!_login)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -271,16 +274,17 @@ class _AuthFormState extends State<AuthForm> {
                                   .instance
                                   .signInWithEmailAndPassword(
                                       email: _email, password: _password);
-                              //Navigator.of(context).pushNamed(FromTo.routeName);
+                              // Navigator.of(context).pushNamed(FromTo.routeName);
                               Navigator.pushNamed(context, '/FromTo');
+
+                              // Navigator.pushNamed(context, '/Query');
                               if (_email == "admin@admin.com" &&
                                   _password == "123456")
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => AdminScreen(),
                                 ));
-                              else
-                                Navigator.of(context)
-                                    .pushNamed(FromTo.routeName);
+                              // else
+                                // Navigator.of(context).pushNamed(FromTo.routeName);
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
                                 const snackBar = SnackBar(
