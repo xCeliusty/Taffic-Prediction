@@ -7,7 +7,7 @@
      
     <!--permission android:name="com.example.mapexdemo.permission.MAPS_RECEIVE"/-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
- <permission android:name="com.example.mapexdemo.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
+ <!--permission android:name="com.example.mapexdemo.permission.MAPS_RECEIVE" android:protectionLevel="signature" /-->
    
    <application
         android:label="Bus Go"

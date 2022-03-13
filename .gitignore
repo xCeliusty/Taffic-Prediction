@@ -30,4 +30,3 @@
 .pub-cache/
 .pub/
 /build/
-android/app/src/main/AndroidManifest.xml
