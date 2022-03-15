@@ -44,9 +44,14 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
+<<<<<<< Updated upstream
             title: const Text("Calender"),
             onTap: () {
               // Navigator.of(context).pushNamed(Calender.routeName);
+=======
+            title: const Text("Calendar"),
+            onTap: () {
+>>>>>>> Stashed changes
               Navigator.pushNamed(context, '/Calender');
             },
           ),
