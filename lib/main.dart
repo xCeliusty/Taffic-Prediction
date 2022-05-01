@@ -2,6 +2,7 @@ import 'package:busgo/authentication/auth_form.dart';
 import 'package:busgo/authentication/auth_screen.dart';
 import 'package:busgo/pages/calender.dart';
 import 'package:busgo/pages/traffic_ui.dart';
+
 import 'package:busgo/screens/maps.dart';
 import 'package:busgo/pages/splash_screen.dart';
 import 'package:busgo/pages/edit_profile.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         AuthScreen.routeName: (BuildContext context) {
           return const AuthScreen();
         },
-       '/Calender': (context) => Calender(),
+
         //FromTo.routeName: (context) => const FromTo(),
         Editprofile.routeName: (context) => Editprofile(),
         '/Calender': (context) => Calender(),

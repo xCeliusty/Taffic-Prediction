@@ -19,16 +19,16 @@ class TrafficService extends ChangeNotifier {
   Future<void> fetchTraffic() async {
     if (_traffic.length > 0) return;
 
-    final response = await http.get(Uri.parse(
-        'http://10.0.2.2:5000/predict?Date=02/04/2022&CodedDay=7&Zone=5&Weather=16&Temperature=12.1&Rain=1&Holiday=0'));
+    final response = await http.get(Uri.parse('http://192.168.1.7:5000/predict?Date=02/04/2022&CodedDay=7&Zone=5&Weather=16&Temperature=12.1&Rain=1&Holiday=0'));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       var allData = jsonDecode(utf8.decode(response.bodyBytes));
 
+      
       Traffic traffic = Traffic.fromJson(allData);
       _traffic.add(traffic);
-
+      
       _isLoaded = true;
       notifyListeners();
     } else {
