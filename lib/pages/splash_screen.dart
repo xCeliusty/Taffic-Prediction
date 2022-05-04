@@ -1,6 +1,4 @@
-import 'package:busgo/authentication/auth_form.dart';
-import 'package:busgo/authentication/auth_screen.dart';
-import 'package:busgo/drawer/drawer.dart';
+import 'package:fastroute/authentication/auth_screen.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {

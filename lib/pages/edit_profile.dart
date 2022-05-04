@@ -1,4 +1,4 @@
-import 'package:busgo/drawer/drawer.dart';
+import 'package:fastroute/drawer/drawer.dart';
 import 'package:flutter/material.dart';
 
 class Editprofile extends StatefulWidget {

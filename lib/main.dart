@@ -1,14 +1,14 @@
-import 'package:busgo/authentication/auth_form.dart';
-import 'package:busgo/authentication/auth_screen.dart';
-import 'package:busgo/pages/calender.dart';
-import 'package:busgo/pages/traffic_ui.dart';
+import 'package:fastroute/authentication/auth_form.dart';
+import 'package:fastroute/authentication/auth_screen.dart';
+// import 'package:fastroute/pages/calender.dart';
+import 'package:fastroute/pages/traffic_ui.dart';
 
-import 'package:busgo/screens/maps.dart';
-import 'package:busgo/pages/splash_screen.dart';
-import 'package:busgo/pages/edit_profile.dart';
-import 'package:busgo/screens/test.dart';
-import 'package:busgo/sevices/traffic_service.dart';
-// import 'package:busgo/services/traffic_service.dart';
+import 'package:fastroute/screens/maps.dart';
+import 'package:fastroute/pages/splash_screen.dart';
+import 'package:fastroute/pages/edit_profile.dart';
+import 'package:fastroute/screens/test.dart';
+import 'package:fastroute/sevices/traffic_service.dart';
+// import 'package:fastroute/services/traffic_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,14 +46,13 @@ class MyApp extends StatelessWidget {
 
         //FromTo.routeName: (context) => const FromTo(),
         Editprofile.routeName: (context) => Editprofile(),
-        '/Calender': (context) => Calender(),
+        // '/Calender': (context) => Calender(),
 
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
         '/Query': (context) => Query(),
-
       },
-       home: const Splash(),
+      home: const Splash(),
       // home: Query(),
     );
   }

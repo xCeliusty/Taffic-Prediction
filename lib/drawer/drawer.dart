@@ -1,14 +1,11 @@
-
-
-import 'package:busgo/authentication/auth_screen.dart';
-import 'package:busgo/pages/edit_profile.dart';
-import 'package:busgo/pages/edit_profile.dart';
-import 'package:busgo/screens/maps.dart';
+import 'package:fastroute/authentication/auth_screen.dart';
+import 'package:fastroute/pages/edit_profile.dart';
+import 'package:fastroute/pages/edit_profile.dart';
+import 'package:fastroute/screens/maps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/calender.dart';
-
+// import '../pages/calender.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -38,8 +35,6 @@ class AppDrawer extends StatelessWidget {
               Navigator.pushNamed(context, '/Query');
             },
           ),
-          
-          
           ListTile(
             leading: const Icon(Icons.remove_red_eye),
             title: const Text("view edit profile"),
@@ -47,13 +42,12 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(Editprofile.routeName);
             },
           ),
-           ListTile(
+          ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Calender"),
-            onTap: ()  {
- 
-             // Navigator.of(context).pushNamed(Calender.routeName);
-               Navigator.pushNamed(context, '/Calender');
+            onTap: () {
+              // Navigator.of(context).pushNamed(Calender.routeName);
+              Navigator.pushNamed(context, '/Calender');
             },
           ),
           ListTile(
@@ -64,7 +58,6 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(AuthScreen.routeName);
             },
           ),
-          
         ],
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:busgo/models/traffic.dart';
+import 'package:fastroute/models/traffic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

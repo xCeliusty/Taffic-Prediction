@@ -4,9 +4,8 @@
 import 'dart:collection';
 
 //import 'package:table_calendar/table_calendar.dart';
-import 'package:busgo/table_calendar.dart';
+import 'package:fastroute/table_calendar.dart';
 //import './screens/maps.dart';
-
 
 /// Example event class.
 class Event {

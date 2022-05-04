@@ -1,5 +1,5 @@
-import 'package:busgo/admin/add_trip_screen.dart';
-import 'package:busgo/authentication/auth_screen.dart';
+import 'package:fastroute/admin/add_trip_screen.dart';
+import 'package:fastroute/authentication/auth_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

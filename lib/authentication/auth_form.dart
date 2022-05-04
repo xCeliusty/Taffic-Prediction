@@ -1,9 +1,9 @@
- import 'package:busgo/screens/maps.dart';
-import 'package:busgo/screens/maps.dart';
+import 'package:fastroute/screens/maps.dart';
+import 'package:fastroute/screens/maps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:busgo/admin/admin_screen.dart';
+import 'package:fastroute/admin/admin_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -281,22 +281,22 @@ class _AuthFormState extends State<AuthForm> {
                                   builder: (context) => AdminScreen(),
                                 ));
                               // else
-                                // Navigator.of(context).pushNamed(FromTo.routeName);
+                              // Navigator.of(context).pushNamed(FromTo.routeName);
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
                                 const snackBar = SnackBar(
-                                      duration: Duration(seconds: 5),
-                                      content: Text(
-                                          "No user found for that email."));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                    duration: Duration(seconds: 5),
+                                    content:
+                                        Text("No user found for that email."));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               } else if (e.code == 'wrong-password') {
                                 const snackBar = SnackBar(
-                                      duration: Duration(seconds: 5),
-                                      content: Text(
-                                          "No user found for that email."));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                    duration: Duration(seconds: 5),
+                                    content:
+                                        Text("No user found for that email."));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                 print('Wrong password provided for that user.');
                               }
                             }

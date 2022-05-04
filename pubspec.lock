@@ -56,45 +56,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "3.1.10"
-=======
     version: "3.1.9"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "3.1.9"
->>>>>>> Stashed changes
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "5.5.1"
-=======
     version: "5.5.0"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "5.5.0"
->>>>>>> Stashed changes
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "2.6.10"
-=======
     version: "2.6.9"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "2.6.9"
->>>>>>> Stashed changes
   collection:
     dependency: transitive
     description:
@@ -116,13 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  dio:
-    dependency: "direct main"
-    description:
-      name: dio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.4"
   fake_async:
     dependency: transitive
     description:
@@ -130,115 +99,53 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  ffi:
-    dependency: transitive
-    description:
-      name: ffi
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.2"
   firebase_auth:
     dependency: "direct main"
     description:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "3.3.10"
-=======
     version: "3.3.8"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "3.3.8"
->>>>>>> Stashed changes
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "6.2.1"
-=======
     version: "6.2.0"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "6.2.0"
->>>>>>> Stashed changes
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "3.3.9"
-=======
     version: "3.3.8"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "3.3.8"
->>>>>>> Stashed changes
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "1.13.1"
-=======
     version: "1.12.0"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "1.12.0"
->>>>>>> Stashed changes
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "4.2.5"
-=======
     version: "4.2.4"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "4.2.4"
->>>>>>> Stashed changes
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "1.6.1"
-=======
     version: "1.6.0"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "1.6.0"
->>>>>>> Stashed changes
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_google_places_hoc081098:
-    dependency: "direct main"
-    description:
-      name: flutter_google_places_hoc081098
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -261,7 +168,7 @@ packages:
     source: hosted
     version: "1.0.0"
   flutter_rating_stars:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_rating_stars
       url: "https://pub.dartlang.org"
@@ -284,13 +191,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  google_api_headers:
-    dependency: transitive
-    description:
-      name: google_api_headers
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -305,13 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
-  google_maps_webservice:
-    dependency: "direct main"
-    description:
-      name: google_maps_webservice
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.20-nullsafety.5"
   http:
     dependency: "direct main"
     description:
@@ -347,20 +240,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.4.0"
-  listenable_stream:
-    dependency: transitive
-    description:
-      name: listenable_stream
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
@@ -389,25 +268,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
-  nepali_date_picker:
-    dependency: "direct main"
-    description:
-      name: nepali_date_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.2.0"
-  nepali_utils:
-    dependency: "direct main"
-    description:
-      name: nepali_utils
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.3"
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Stashed changes
   nested:
     dependency: transitive
     description:
@@ -415,52 +275,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-<<<<<<< Updated upstream
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
->>>>>>> Stashed changes
-  package_info_plus:
-    dependency: transitive
-    description:
-      name: package_info_plus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.4.0"
-  package_info_plus_linux:
-    dependency: transitive
-    description:
-      name: package_info_plus_linux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
-  package_info_plus_macos:
-    dependency: transitive
-    description:
-      name: package_info_plus_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.3.0"
-  package_info_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: package_info_plus_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
-  package_info_plus_web:
-    dependency: transitive
-    description:
-      name: package_info_plus_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
-  package_info_plus_windows:
-    dependency: transitive
-    description:
-      name: package_info_plus_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   path:
     dependency: transitive
     description:
@@ -489,20 +303,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.2"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.27.3"
-  rxdart_ext:
-    dependency: transitive
-    description:
-      name: rxdart_ext
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.3"
   search_map_place_updated:
     dependency: "direct main"
     description:
@@ -510,13 +310,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4"
-  simple_gesture_detector:
-    dependency: "direct main"
-    description:
-      name: simple_gesture_detector
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -557,27 +350,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  syncfusion_flutter_calendar:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_calendar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.4.55"
-  syncfusion_flutter_core:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.4.55"
-  syncfusion_flutter_datepicker:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_datepicker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.4.55"
   term_glyph:
     dependency: transitive
     description:
@@ -592,13 +364,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
-  timezone:
-    dependency: transitive
-    description:
-      name: timezone
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.0"
   typed_data:
     dependency: transitive
     description:
@@ -613,21 +378,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  win32:
-    dependency: transitive
-    description:
-      name: win32
-      url: "https://pub.dartlang.org"
-    source: hosted
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    version: "2.4.1"
-=======
-    version: "2.3.6"
->>>>>>> 0993e2f559db9a2b1236a995ea62bf37ac4dfee7
-=======
-    version: "2.3.6"
->>>>>>> Stashed changes
   xml:
     dependency: transitive
     description:

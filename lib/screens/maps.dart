@@ -1,10 +1,10 @@
 // ignore_for_file: void_checks, unnecessary_brace_in_string_interps
 
 import 'dart:async';
-import 'package:busgo/trackingdirectionsmap/locationservice.dart';
-import 'package:busgo/trackingdirectionsmap/secrets.dart';
+import 'package:fastroute/trackingdirectionsmap/locationservice.dart';
+import 'package:fastroute/trackingdirectionsmap/secrets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+// import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 //import 'package:google_maps_webservice/directions.dart';
 
 import 'package:search_map_place_updated/search_map_place_updated.dart';
@@ -116,7 +116,7 @@ class MapFromToState extends State<FromTo> {
   Widget build(BuildContext context) {
     // ignore: unnecessary_new
     return new Scaffold(
-      drawer:AppDrawer(),
+      drawer: AppDrawer(),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -128,9 +128,8 @@ class MapFromToState extends State<FromTo> {
           Row(
             children: [
               SingleChildScrollView(
-                child: 
-                Container(
-                   width:312,
+                child: Container(
+                  width: 312,
                   child: Column(
                     children: [
                       SearchMapPlaceWidget(
@@ -138,20 +137,19 @@ class MapFromToState extends State<FromTo> {
                         placeType: PlaceType.address,
                         placeholder: 'Enter the location',
                         apiKey: Secrets.API_KEY,
-                        iconColor:Colors.blueGrey,
+                        iconColor: Colors.blueGrey,
                         //strictBounds :true,
 
-                        bgColor :Colors.blueGrey,
-                        location: LatLng(30.057978,31.212652),
-                        radius: 181273 ,//608.52 2sto bil km ,544878.02  meter
+                        bgColor: Colors.blueGrey,
+                        location: LatLng(30.057978, 31.212652),
+                        radius: 181273, //608.52 2sto bil km ,544878.02  meter
                         onSelected: (Place place) async {
-                         // place1 = place.description!;
-                         // print(place);
+                          // place1 = place.description!;
+                          // print(place);
                           if (place != null) {
-                        place1 = place.description!;
-                          print(place);
-                        }
-
+                            place1 = place.description!;
+                            print(place);
+                          }
                         },
                       ),
 
@@ -181,28 +179,27 @@ class MapFromToState extends State<FromTo> {
 //             ),
 //           ),
 
-                     
-
                       SearchMapPlaceWidget(
                         hasClearButton: true,
-                        bgColor :Colors.blueGrey,
-                       iconColor:Colors.blueGrey,
+                        bgColor: Colors.blueGrey,
+                        iconColor: Colors.blueGrey,
 
                         //language: const {'en','ar'},
                         placeType: PlaceType.address,
                         // controller: _originController,
                         placeholder: 'Enter the location',
                         apiKey: Secrets.API_KEY,
-                        location: LatLng(30.057978,31.212652),//30.033333, 31.233334
+                        location:
+                            LatLng(30.057978, 31.212652), //30.033333, 31.233334
                         radius: 181273,
-                       // strictBounds: true,
+                        // strictBounds: true,
                         onSelected: (place) async {
-                       //   place2 = place.description!;
-                         // print(place);
+                          //   place2 = place.description!;
+                          // print(place);
                           if (place != null) {
-                        place2 = place.description!;
-                          print(place);
-                        }
+                            place2 = place.description!;
+                            print(place);
+                          }
 
                           // mapController.animateCamera(
                           //   CameraUpdate.newLatLng(geolocation!.coordinates));
@@ -210,48 +207,45 @@ class MapFromToState extends State<FromTo> {
                           //  CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
                         },
                       ),
-                      
                     ],
                   ),
                 ),
               ),
               IconButton(
-                      onPressed: () async {
-                        directions =
-                            await LocationService().getDirections(place1, place2
-                                //  _originController.text,
-                                // _destinationController.text,
-                                
+                onPressed: () async {
+                  directions =
+                      await LocationService().getDirections(place1, place2
+                          //  _originController.text,
+                          // _destinationController.text,
 
-                                );
+                          );
 
-                        DistanceofLocation =
-                            await LocationService().getDistance(place1, place2);
-                        // TimeofLocation=await LocationService().getTime(place1,place2);
-                        TimeofLocation =
-                            await LocationService().getTime(place1, place2);
+                  DistanceofLocation =
+                      await LocationService().getDistance(place1, place2);
+                  // TimeofLocation=await LocationService().getTime(place1,place2);
+                  TimeofLocation =
+                      await LocationService().getTime(place1, place2);
 
-                        _goToPlace(
-                          directions['start_location']['lat'],
-                          directions['start_location']['lng'],
-                          directions['bounds_ne'],
-                          directions['bounds_sw'],
-                        );
+                  _goToPlace(
+                    directions['start_location']['lat'],
+                    directions['start_location']['lng'],
+                    directions['bounds_ne'],
+                    directions['bounds_sw'],
+                  );
 
-                        _setPolyline(
-                          directions['polyline_decoded'],
-                        );
-                        setState(() {
-                          //  DistanceofLocation= LocationService().getDistance(place1,place2) ;
+                  _setPolyline(
+                    directions['polyline_decoded'],
+                  );
+                  setState(() {
+                    //  DistanceofLocation= LocationService().getDistance(place1,place2) ;
 
-                          TimeofLocation;
-                        });
-                      },
-                      icon: Icon(Icons.search),
-                      color: Colors.pink,
-                    ),
+                    TimeofLocation;
+                  });
+                },
+                icon: Icon(Icons.search),
+                color: Colors.pink,
+              ),
             ],
-            
           ),
           Row(
             children: [
@@ -300,14 +294,13 @@ class MapFromToState extends State<FromTo> {
                           : Text(''),
                     ),
                     //   },
-                 ElevatedButton(
-                          onPressed: () async {
-                            Navigator.pushNamed(context, '/TrafficSummary');
-                          },
-                          child: Text("Check Traffic"),
-                        ),
- ],
-                  
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pushNamed(context, '/TrafficSummary');
+                      },
+                      child: Text("Check Traffic"),
+                    ),
+                  ],
                 ),
               ),
 
@@ -389,18 +382,16 @@ class MapFromToState extends State<FromTo> {
   }
 
   //  getPlaceService() async {
-    
+
   //   var place = await PlacesAutocomplete.show(
   //       context: context,
   //       apiKey: Secrets.API_KEY,
   //       mode: Mode.overlay,
   //       types: [],
   //      strictbounds: false,
-       
+
   //      components: [Component(Component.country, 'Eg')],
 
-        
-      
-  //     ); 
+  //     );
   //}
 }
