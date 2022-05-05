@@ -46,6 +46,9 @@ dependencies:
   flutter_rating_stars: ^1.0.3+4
   provider: ^6.0.2
   search_map_place_updated: ^0.0.4
+  google_api_headers: ^1.2.0+1
+  google_maps_webservice: ^0.0.19
+  flutter_google_places_hoc081098: ^1.0.1
 
 dev_dependencies:
   flutter_test:

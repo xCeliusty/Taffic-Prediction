@@ -1,24 +1,15 @@
-// ignore_for_file: void_checks, unnecessary_brace_in_string_interps
-
 import 'dart:async';
 import 'package:fastroute/trackingdirectionsmap/locationservice.dart';
-import 'package:fastroute/trackingdirectionsmap/secrets.dart';
+import '../trackingdirectionsmap/secrets.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-//import 'package:google_maps_webservice/directions.dart';
-
-import 'package:search_map_place_updated/search_map_place_updated.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../trackingdirectionsmap/secrets.dart';
 import '../drawer/drawer.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_maps_webservice/places.dart'; //Component(Component.country, 'Eg'
 //import 'package:google_api_headers/google_api_headers.dart';
 //import 'package:google_maps_webservice/places.dart';
-
-//import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-//import 'package:google_api_headers/google_api_headers.dart';
-//import 'package:google_maps_webservice/places.dart';
-
 //import 'package:permission_asker/permission_asker.dart';
 //import 'package:permission_handler/permission_handler.dart';
 
@@ -31,21 +22,16 @@ class FromTo extends StatefulWidget {
 class MapFromToState extends State<FromTo> {
   static const routeName = "/from-to";
   Completer<GoogleMapController> _controller = Completer();
-  //TextEditingController _originController = TextEditingController();
-  // TextEditingController _destinationController = TextEditingController();
   late GoogleMapController mapController;
 
   late String originInputString = '';
   late String destinationInputString;
-//Null emptyNull=null;
 
-  // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
   var DistanceofLocation;
-  //= LocationService().getDistance("miu", "guc");
   var TimeofLocation;
-  //= LocationService().getTime("miu", "guc");
 
   late var directions;
+  var originPlace;
 
   Set<Marker> _markers = Set<Marker>();
   Set<Polygon> _polygons = Set<Polygon>();
@@ -54,15 +40,15 @@ class MapFromToState extends State<FromTo> {
 
   int _polygonIdCounter = 1;
   int _polylineIdCounter = 1;
-  late String place1;
-  late String place2;
+  //late String place1;
+  //late  String place2;
+  String place1 = 'enter origin';
+  String place2 = 'enter destination';
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(30.033333, 31.233334),
     zoom: 14.4746,
   );
-
-  //get yesonnn => null;
 
   void initState() {
     super.initState();
@@ -132,81 +118,116 @@ class MapFromToState extends State<FromTo> {
                   width: 312,
                   child: Column(
                     children: [
-                      SearchMapPlaceWidget(
-                        hasClearButton: true,
-                        placeType: PlaceType.address,
-                        placeholder: 'Enter the location',
-                        apiKey: Secrets.API_KEY,
-                        iconColor: Colors.blueGrey,
-                        //strictBounds :true,
+                      Positioned(
+                        top: 20,
+                        child: InkWell(
+                          onTap: getPlaceService1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Card(
+                              child: Container(
+                                padding: const EdgeInsets.all(0),
+                                width: double.infinity,
+                                child: ListTile(
+                                  title: Text(
+                                    '$place1',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  dense: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
 
-                        bgColor: Colors.blueGrey,
-                        location: LatLng(30.057978, 31.212652),
-                        radius: 181273, //608.52 2sto bil km ,544878.02  meter
-                        onSelected: (Place place) async {
+                      Positioned(
+                        top: 80,
+                        child: InkWell(
+                          //desitnation
+                          onTap: //(Place place) async {
+                              // setState(() {
+                              getPlaceService2
+                          //});
+
                           // place1 = place.description!;
                           // print(place);
-                          if (place != null) {
-                            place1 = place.description!;
-                            print(place);
-                          }
-                        },
+                          //if (place != null) {
+                          //place1 = place.description!;
+                          //print(place);
+                          //};
+                          //  }
+                          ,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Card(
+                              child: Container(
+                                padding: const EdgeInsets.all(0),
+                                //width: width,
+                                child: ListTile(
+                                  title: Text(
+                                    '$place2',
+
+                                    ///destination
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  // trailing: const Icon(Icons.search),
+                                  dense: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
 
-// Positioned(
-//             top: 20,
-//             child: InkWell(
-//               onTap: getPlaceService,
-//               child: Padding(
-//                 padding: const EdgeInsets.all(15),
-//                 child: Card(
-//                   child: Container(
-//                     padding: const EdgeInsets.all(0),
-//                     width: double.infinity,
-//                     child: ListTile(
-//                       title: Text(
-//                       'location',
-//                         style: const TextStyle(
-//                           fontSize: 18,
-//                         ),
-//                       ),
-//                       trailing: const Icon(Icons.search),
-//                       dense: true,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
+                      // SearchMapPlaceWidget(
+                      //   hasClearButton: true,
+                      //   placeType: PlaceType.address,
+                      //   placeholder: 'Enter the location',
+                      //   apiKey: Secrets.API_KEY,
+                      //   iconColor:Colors.blueGrey,
+                      //   //strictBounds :true,
 
-                      SearchMapPlaceWidget(
-                        hasClearButton: true,
-                        bgColor: Colors.blueGrey,
-                        iconColor: Colors.blueGrey,
+                      //   bgColor :Colors.blueGrey,
+                      //   location: LatLng(30.057978,31.212652),
+                      //   radius: 181273 ,//608.52 2sto bil km ,544878.02  meter
+                      //   onSelected: (Place place) async {
+                      //    // place1 = place.description!;
+                      //    // print(place);
+                      //     if (place != null) {
+                      //   place1 = place.description!;
+                      //     print(place);
+                      //   }
 
-                        //language: const {'en','ar'},
-                        placeType: PlaceType.address,
-                        // controller: _originController,
-                        placeholder: 'Enter the location',
-                        apiKey: Secrets.API_KEY,
-                        location:
-                            LatLng(30.057978, 31.212652), //30.033333, 31.233334
-                        radius: 181273,
-                        // strictBounds: true,
-                        onSelected: (place) async {
-                          //   place2 = place.description!;
-                          // print(place);
-                          if (place != null) {
-                            place2 = place.description!;
-                            print(place);
-                          }
+                      //   },
+                      // ),
 
-                          // mapController.animateCamera(
-                          //   CameraUpdate.newLatLng(geolocation!.coordinates));
-                          //mapController.animateCamera(
-                          //  CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
-                        },
-                      ),
+                      // SearchMapPlaceWidget(
+                      //   hasClearButton: true,
+                      //   bgColor :Colors.blueGrey,
+                      //  iconColor:Colors.blueGrey,
+
+                      //   //language: const {'en','ar'},
+                      //   placeType: PlaceType.address,
+                      //   // controller: _originController,
+                      //   placeholder: 'Enter the location',
+                      //   apiKey: Secrets.API_KEY,
+                      //   location: LatLng(30.057978,31.212652),//30.033333, 31.233334
+                      //   radius: 181273,
+                      //  // strictBounds: true,
+                      //   onSelected: (place) async {
+                      //  //   place2 = place.description!;
+                      //    // print(place);
+                      //     if (place != null) {
+                      //   place2 = place.description!;
+                      //     print(place);
+                      //   }
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
@@ -214,15 +235,10 @@ class MapFromToState extends State<FromTo> {
               IconButton(
                 onPressed: () async {
                   directions =
-                      await LocationService().getDirections(place1, place2
-                          //  _originController.text,
-                          // _destinationController.text,
-
-                          );
+                      await LocationService().getDirections(place1, place2);
 
                   DistanceofLocation =
                       await LocationService().getDistance(place1, place2);
-                  // TimeofLocation=await LocationService().getTime(place1,place2);
                   TimeofLocation =
                       await LocationService().getTime(place1, place2);
 
@@ -237,8 +253,6 @@ class MapFromToState extends State<FromTo> {
                     directions['polyline_decoded'],
                   );
                   setState(() {
-                    //  DistanceofLocation= LocationService().getDistance(place1,place2) ;
-
                     TimeofLocation;
                   });
                 },
@@ -252,40 +266,10 @@ class MapFromToState extends State<FromTo> {
               Expanded(
                 child: Row(
                   children: [
-                    //                       TextFormField(
-                    //                         controller: _originController,
-                    //                         decoration: InputDecoration(hintText: ' Origin'),
-
-                    //                         onChanged: (originInput) async {
-                    //                          // getSuggestion(orginInput);
-
-                    //                           print(originInput);
-                    //                           originInputString=originInput;
-                    //                           //print("the ssssssssssssssssssssssssssssss $originInputString");
-                    //                           print("the_origidddnController $_originController");
-
-                    //                         },
-                    //                       ),
-                    //                       TextFormField(
-                    //                         controller: _destinationController,
-                    //                         decoration: InputDecoration(hintText: ' Destination'),
-                    //                         onChanged: (destinationInput) {
-                    //                         //  getSuggestion(DestinationInput);
-                    //                           print(destinationInput);
-
-                    // destinationInputString=destinationInput;
-                    //                           print("the inputtt is $_destinationController.text");
-                    //                         },
-                    //                        ),
-                    // if(TimeofLocation!=null && DistanceofLocation!=null){
                     Container(
                       child: TimeofLocation != null
                           ? Text(
                               '${TimeofLocation} ${DistanceofLocation} ',
-                              //The distance is DistanceofLocation & $TimeofLocation
-                              //_originController.text, _destinationController.text
-                              //"miu","guc"
-
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
@@ -293,7 +277,6 @@ class MapFromToState extends State<FromTo> {
                             )
                           : Text(''),
                     ),
-                    //   },
                     ElevatedButton(
                       onPressed: () async {
                         Navigator.pushNamed(context, '/TrafficSummary');
@@ -340,7 +323,6 @@ class MapFromToState extends State<FromTo> {
               myLocationEnabled: true,
               // compassEnabled:true,
               //mapToolbarEnabled:true,
-
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
@@ -381,17 +363,92 @@ class MapFromToState extends State<FromTo> {
     _setMarker(LatLng(lat, lng));
   }
 
-  //  getPlaceService() async {
+  getPlaceService2() async {
+    var getplace2 = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: Secrets.API_KEY,
+      startText: "Destinatuion",
+      mode: Mode.fullscreen,
+      types: [],
+      hint: 'Search',
+      strictbounds: false,
+      components: [Component(Component.country, 'Eg')],
+      onError: (err) {
+        var snackBar = const SnackBar(content: Text("An Error happened!"));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+    );
+    await displayPrediction2(getplace2, ScaffoldMessenger.of(context));
+    print('i am palce to ${place2}');
+  }
 
-  //   var place = await PlacesAutocomplete.show(
-  //       context: context,
-  //       apiKey: Secrets.API_KEY,
-  //       mode: Mode.overlay,
-  //       types: [],
-  //      strictbounds: false,
+  getPlaceService1() async {
+    var getplace1 = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: Secrets.API_KEY,
+      mode: Mode.fullscreen,
+      types: [],
+      strictbounds: false,
+      components: [Component(Component.country, 'Eg')],
+      onError: (err) {
+        var snackBar = const SnackBar(content: Text("An Error happened!"));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+    );
+    await displayPrediction1(getplace1, ScaffoldMessenger.of(context));
+    print('i am palce to ${getplace1}');
+  }
 
-  //      components: [Component(Component.country, 'Eg')],
+  Future<void> displayPrediction2(
+      Prediction? p, ScaffoldMessengerState messengerState) async {
+    if (p == null) {
+      //print('thhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ${p}');
+      return;
+    }
+    // get detail (lat/lng)
+    final _places = GoogleMapsPlaces(
+      apiKey: Secrets.API_KEY,
+      apiHeaders: await const GoogleApiHeaders().getHeaders(),
+    );
 
-  //     );
-  //}
-}
+    final detail = await _places.getDetailsByPlaceId(p.placeId!);
+    final geometry = detail.result.geometry!;
+    final lat = geometry.location.lat;
+    final lng = geometry.location.lng;
+    print('geometry hello2 ${p.description}');
+    place2 = p.description!;
+    messengerState.showSnackBar(
+      SnackBar(
+        content: Text('${p.description} - $lat/$lng'),
+      ),
+    );
+  }
+
+  Future<void> displayPrediction1(
+      Prediction? p, ScaffoldMessengerState messengerState) async {
+    if (p == null) {
+      //print('thhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ${p}');
+      return;
+    }
+    // get detail (lat/lng)
+    final _places = GoogleMapsPlaces(
+      apiKey: Secrets.API_KEY,
+      apiHeaders: await const GoogleApiHeaders().getHeaders(),
+    );
+
+    final detail = await _places.getDetailsByPlaceId(p.placeId!);
+    final geometry = detail.result.geometry!;
+    final lat = geometry.location.lat;
+    final lng = geometry.location.lng;
+    print('geometry hello1 ${p.description}');
+    place1 = p.description!;
+
+    messengerState.showSnackBar(
+      SnackBar(
+        content: Text('${p.description} - $lat/$lng'),
+      ),
+    );
+  }
+} /////////endddd
+
+
