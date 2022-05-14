@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:fastroute/trackingdirectionsmap/locationservice.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import '../trackingdirectionsmap/secrets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -8,10 +10,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../drawer/drawer.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart'; //Component(Component.country, 'Eg'
-//import 'package:google_api_headers/google_api_headers.dart';
-//import 'package:google_maps_webservice/places.dart';
-//import 'package:permission_asker/permission_asker.dart';
-//import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:location/location.dart' as loc;
+import 'package:geocoding/geocoding.dart';
+
 
 class FromTo extends StatefulWidget {
   static const routeName = "/FromTo";
@@ -23,9 +26,19 @@ class MapFromToState extends State<FromTo> {
   static const routeName = "/from-to";
   Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController mapController;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final loc.Location location = loc.Location();
+  StreamSubscription<loc.LocationData>? _locationSubscription;
+ late var latit ;
+  late  var long;
 
   late String originInputString = '';
   late String destinationInputString;
+
+
+  bool _added =false;
+ late  String user_id;
+
 
   var DistanceofLocation;
   var TimeofLocation;
@@ -42,18 +55,74 @@ class MapFromToState extends State<FromTo> {
   int _polylineIdCounter = 1;
   //late String place1;
   //late  String place2;
-  String place1 = 'enter origin';
-  String place2 = 'enter destination';
+  String place1 = 'Enter Origin';
+  String place2 = 'Enter Destination';
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(30.033333, 31.233334),
+    target: //latlng(snapshot.data!.docs.singlewhere((element)=> element.id==widget.user_id)['latitude']['longitude']);
+    
+    LatLng(30.033333, 31.233334),
     zoom: 14.4746,
   );
 
   void initState() {
     super.initState();
+    _requestPermission();
+   // _requestPermission;
 
     _setMarker(LatLng(30.033333, 31.233334));
+  }
+  
+  //put input to the firebase add my current location
+  _getLocation() async {
+final User? user = auth.currentUser;
+      final uid = user!.uid;
+       try {
+      //final loc.LocationData _locationResult = await location.getLocation();
+      await FirebaseFirestore.instance
+          .collection('Location')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+       // 'latitude': _locationResult.latitude,
+        //'longitude': _locationResult.longitude,
+        'Latitude':latit,
+        'Longitude': long,
+        'User_Id': uid,
+        //'user': user,
+        //'origin':placemarkFromCoordinates(_locationResult.latitude!,_locationResult.longitude!),
+        'origin':place1,
+        'destination':place2,
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print("errrrrrrrrrrrrorrr${e}");
+      print("errrrrrrrrrrrrorrr${user}");
+       print("errrrrrrrrrrrrorrr${uid}");
+       print("errrrrrrrrrrrrorrr${latit}");
+       print("errrrrrrrrrrrrorrr${long}");
+       print("errrrrrrrrrrrrorrr${place1}");
+       print("errrrrrrrrrrrrorrr${place2}");
+    }
+
+
+    // try {
+    //   final loc.LocationData _locationResult = await location.getLocation();
+    //   await FirebaseFirestore.instance
+    //       .collection('Location')
+    //       .doc(FirebaseAuth.instance.currentUser!.uid)
+    //       .set({
+    //    // 'latitude': _locationResult.latitude,
+    //     //'longitude': _locationResult.longitude,
+    //     'Latitude':lat,
+    //     'Longitude': lng,
+    //     'User_Id': uid,
+    //     'user': user,
+    //     //'origin':placemarkFromCoordinates(_locationResult.latitude!,_locationResult.longitude!),
+    //     'origin':place1,
+    //     'destination':place2,
+    //   }, SetOptions(merge: true));
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   void _setMarker(LatLng point) {
@@ -81,8 +150,11 @@ class MapFromToState extends State<FromTo> {
   }
 
   void _setPolyline(List<PointLatLng> points) {
+
     final String polylineIdVal = 'polyline_$_polylineIdCounter';
     _polylineIdCounter++;
+setState(() {  //3shan t3mli update li tlween el shwr3
+  
 
     _polylines.add(
       Polyline(
@@ -96,6 +168,7 @@ class MapFromToState extends State<FromTo> {
             .toList(),
       ),
     );
+    });
   }
 
   @override
@@ -103,13 +176,19 @@ class MapFromToState extends State<FromTo> {
     // ignore: unnecessary_new
     return new Scaffold(
       drawer: AppDrawer(),
+   
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Enter orgin and destination'),
         backgroundColor: Colors.blueGrey,
       ),
-      body: Column(
+     body:
+     // StreamBuilder(
+      // stream: FirebaseFirestore.instance.collection("Location").snapshots(),
+      // builder: ( context, AsyncSnapshot <QuerySnapshot> snapshot) {
+        // return
+           Column(
         children: [
           Row(
             children: [
@@ -147,18 +226,8 @@ class MapFromToState extends State<FromTo> {
                         top: 80,
                         child: InkWell(
                           //desitnation
-                          onTap: //(Place place) async {
-                              // setState(() {
+                          onTap:
                               getPlaceService2
-                          //});
-
-                          // place1 = place.description!;
-                          // print(place);
-                          //if (place != null) {
-                          //place1 = place.description!;
-                          //print(place);
-                          //};
-                          //  }
                           ,
                           child: Padding(
                             padding: const EdgeInsets.all(15),
@@ -183,57 +252,13 @@ class MapFromToState extends State<FromTo> {
                           ),
                         ),
                       ),
-
-                      // SearchMapPlaceWidget(
-                      //   hasClearButton: true,
-                      //   placeType: PlaceType.address,
-                      //   placeholder: 'Enter the location',
-                      //   apiKey: Secrets.API_KEY,
-                      //   iconColor:Colors.blueGrey,
-                      //   //strictBounds :true,
-
-                      //   bgColor :Colors.blueGrey,
-                      //   location: LatLng(30.057978,31.212652),
-                      //   radius: 181273 ,//608.52 2sto bil km ,544878.02  meter
-                      //   onSelected: (Place place) async {
-                      //    // place1 = place.description!;
-                      //    // print(place);
-                      //     if (place != null) {
-                      //   place1 = place.description!;
-                      //     print(place);
-                      //   }
-
-                      //   },
-                      // ),
-
-                      // SearchMapPlaceWidget(
-                      //   hasClearButton: true,
-                      //   bgColor :Colors.blueGrey,
-                      //  iconColor:Colors.blueGrey,
-
-                      //   //language: const {'en','ar'},
-                      //   placeType: PlaceType.address,
-                      //   // controller: _originController,
-                      //   placeholder: 'Enter the location',
-                      //   apiKey: Secrets.API_KEY,
-                      //   location: LatLng(30.057978,31.212652),//30.033333, 31.233334
-                      //   radius: 181273,
-                      //  // strictBounds: true,
-                      //   onSelected: (place) async {
-                      //  //   place2 = place.description!;
-                      //    // print(place);
-                      //     if (place != null) {
-                      //   place2 = place.description!;
-                      //     print(place);
-                      //   }
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
               ),
               IconButton(
                 onPressed: () async {
+                  _getLocation();
                   directions =
                       await LocationService().getDirections(place1, place2);
 
@@ -286,29 +311,6 @@ class MapFromToState extends State<FromTo> {
                   ],
                 ),
               ),
-
-              // IconButton(
-              //     onPressed: () async {
-              //       directions = await LocationService().getDirections(
-              //    place1, place2
-              //       //  _originController.text,
-              //        // _destinationController.text,
-
-              //       );
-              //       _goToPlace(
-              //         directions['start_location']['lat'],
-              //         directions['start_location']['lng'],
-              //         directions['bounds_ne'],
-              //         directions['bounds_sw'],
-              //       );
-
-              //       _setPolyline(directions['polyline_decoded'],
-
-              //       );
-              //     },
-              //     icon: Icon(Icons.search),
-              //     color: Colors.pink,
-              //     ),
             ],
           ),
           Expanded(
@@ -323,8 +325,14 @@ class MapFromToState extends State<FromTo> {
               myLocationEnabled: true,
               // compassEnabled:true,
               //mapToolbarEnabled:true,
+               
               onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
+                setState(() {
+        _controller.complete(controller);
+                
+                _added=true;
+    });
+              
               },
               onTap: (point) {
                 setState(() {
@@ -336,9 +344,16 @@ class MapFromToState extends State<FromTo> {
           ),
         ],
       ),
+      // },
+
+     //),
+  
     );
   }
 
+
+
+/**********************functions********************************************************/
   Future<void> _goToPlace(
     double lat,
     double lng,
@@ -438,17 +453,81 @@ class MapFromToState extends State<FromTo> {
 
     final detail = await _places.getDetailsByPlaceId(p.placeId!);
     final geometry = detail.result.geometry!;
-    final lat = geometry.location.lat;
-    final lng = geometry.location.lng;
+    //final lat = geometry.location.lat;
+    //final lng = geometry.location.lng;
+     latit = geometry.location.lat;
+     long = geometry.location.lng;
+ print('laaaaaaaaaaaaaaaat ${latit}');
+ print('laaaaaaaaaaaaaaaat ${long}');
+
     print('geometry hello1 ${p.description}');
     place1 = p.description!;
 
     messengerState.showSnackBar(
       SnackBar(
-        content: Text('${p.description} - $lat/$lng'),
+        content: Text('${p.description} - $geometry.location.lat/$geometry.location.lng'),
       ),
     );
   }
+
+
+//request from user tracklive location
+_requestPermission() async{
+  var status = await Permission.location.request();
+  //var status = await Permission.location.status;
+ //var status = Permission.location;
+  if(status.isGranted){
+    print('permission is granted!');
+  } else if(status.isDenied){
+    _requestPermission();
+  }else if(status.isPermanentlyDenied){
+    openAppSettings();
+  }
+
+}
+
+ 
+
+//enable live location
+Future<void> _listenLocation()async{
+//List<Placemark> placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
+_locationSubscription = location.onLocationChanged.handleError((onError)  {
+print(onError);
+_locationSubscription?.cancel();
+setState(() {
+  _locationSubscription =null;
+});
+// ignore: unused_local_variable
+//placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
+
+}).listen((loc.LocationData currentlocation) async{ 
+  //placemarks = await placemarkFromCoordinates(currentlocation.latitude, currentlocation.longitude);
+ // var lat = currentlocation.latitude;
+ // var long= currentlocation.longitude;
+  await  FirebaseFirestore.instance
+          .collection('Location')
+          .doc('Traffic Prediction')
+          .set({
+        'latitude':currentlocation.latitude,
+        'longitude': currentlocation.longitude,
+        'User_Id': 'user!.uid',
+        'user': auth.currentUser,
+        'origin':placemarkFromCoordinates(currentlocation.latitude!,currentlocation.longitude!),
+      //  'destination'
+      }, SetOptions(merge: true)); 
+      
+});
+}
+
+//Stop live location
+_StopListeningLocation(){
+ _locationSubscription?.cancel();
+ setState(() {
+   _locationSubscription=null;
+ });
+}
+
+  
 } /////////endddd
 
 
