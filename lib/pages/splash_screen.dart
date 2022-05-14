@@ -25,13 +25,28 @@ class SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Fast Route',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+    return   
+     Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+                  
+                ),
+              ),
+               ClipRRect(
+                                      //borderRadius: new BorderRadius.circular(8.0),
+                                      child: Image.asset(
+                                        'assets/app_logo.png',
+                                       // height: 50,
+                                      ),
+                                    ),
+            ],
+          ),
         ),
-      ),
     );
   }
 }
