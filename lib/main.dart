@@ -46,8 +46,6 @@ class MyApp extends StatelessWidget {
 
         //FromTo.routeName: (context) => const FromTo(),
         Editprofile.routeName: (context) => Editprofile(),
-        // '/Calender': (context) => Calender(),
-
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
         '/Query': (context) => Query(),
