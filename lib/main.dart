@@ -13,10 +13,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './screens/maps.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 Future<void> main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await firebase_core.Firebase.initializeApp();
 
   runApp(
     MultiProvider(
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         accentColor: Colors.white,
@@ -44,16 +47,17 @@ class MyApp extends StatelessWidget {
           return const AuthScreen();
         },
 
-        //FromTo.routeName: (context) => const FromTo(),
-        Editprofile.routeName: (context) => Editprofile(),
-        // '/Calender': (context) => Calender(),
+        
+       Editprofile.routeName: (context) => Editprofile(),
+        
 
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
         '/Query': (context) => Query(),
       },
-      home: const Splash(),
-      // home: Query(),
+     home: const Splash(),
+    //   home: FromTo(),
     );
   }
 }
+
