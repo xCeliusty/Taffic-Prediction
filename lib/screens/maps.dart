@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:fastroute/trackingdirectionsmap/locationservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:geolocator/geolocator.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:provider/provider.dart';
 import '../trackingdirectionsmap/secrets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -13,8 +15,15 @@ import 'package:google_maps_webservice/places.dart'; //Component(Component.count
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart' as loc;
-import 'package:geocoding/geocoding.dart';
+//import 'package:geocoding/geocoding.dart';
+//import 'package:geolocator/geolocator.dart';
+import 'dart:io' show Platform;
 
+
+//import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+
+import 'package:geocoder2/geocoder2.dart';
 
 class FromTo extends StatefulWidget {
   static const routeName = "/FromTo";
@@ -27,110 +36,92 @@ class MapFromToState extends State<FromTo> {
   Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController mapController;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final loc.Location location = loc.Location();
+  final loc.Location location = loc.Location(); 
   StreamSubscription<loc.LocationData>? _locationSubscription;
- late var latit ;
-  late  var long;
+  late var latit;
+  late var long;
 
   late String originInputString = '';
   late String destinationInputString;
 
-
-  bool _added =false;
- late  String user_id;
-
+  //bool _added = false;
+  late String user_id;
 
   var DistanceofLocation;
   var TimeofLocation;
+ /* late*/ var directions; 
 
-  late var directions;
   var originPlace;
 
-  Set<Marker> _markers = Set<Marker>();
+  // Set<Marker> _markers = Set<Marker>();
+Set<Marker> _markers = Set<Marker>();
+  //Map<Marker> markers = Map<Marker>{}; //defto
   Set<Polygon> _polygons = Set<Polygon>();
   Set<Polyline> _polylines = Set<Polyline>();
   List<LatLng> polygonLatLngs = <LatLng>[];
 
-  int _polygonIdCounter = 1;
+  //int _polygonIdCounter = 1;
   int _polylineIdCounter = 1;
   //late String place1;
   //late  String place2;
   String place1 = 'Enter Origin';
   String place2 = 'Enter Destination';
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: //latlng(snapshot.data!.docs.singlewhere((element)=> element.id==widget.user_id)['latitude']['longitude']);
-    
-    LatLng(30.033333, 31.233334),
-    zoom: 14.4746,
-  );
-
   void initState() {
     super.initState();
     _requestPermission();
-   // _requestPermission;
+    // _requestPermission;
+    place1;
+    place2;
 
     _setMarker(LatLng(30.033333, 31.233334));
+    location.changeSettings(interval: 1000, accuracy: loc.LocationAccuracy.low,distanceFilter: 10);
+    location.enableBackgroundMode(enable: true);
   }
-  
-  //put input to the firebase add my current location
-  _getLocation() async {
-final User? user = auth.currentUser;
-      final uid = user!.uid;
-       try {
-      //final loc.LocationData _locationResult = await location.getLocation();
-      await FirebaseFirestore.instance
-          .collection('Location')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({
-       // 'latitude': _locationResult.latitude,
-        //'longitude': _locationResult.longitude,
-        'Latitude':latit,
-        'Longitude': long,
-        'User_Id': uid,
-        //'user': user,
-        //'origin':placemarkFromCoordinates(_locationResult.latitude!,_locationResult.longitude!),
-        'origin':place1,
-        'destination':place2,
-      }, SetOptions(merge: true));
-    } catch (e) {
-      print("errrrrrrrrrrrrorrr${e}");
-      print("errrrrrrrrrrrrorrr${user}");
-       print("errrrrrrrrrrrrorrr${uid}");
-       print("errrrrrrrrrrrrorrr${latit}");
-       print("errrrrrrrrrrrrorrr${long}");
-       print("errrrrrrrrrrrrorrr${place1}");
-       print("errrrrrrrrrrrrorrr${place2}");
-    }
 
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: //latlng(snapshot.data!.docs.singlewhere((element)=> element.id==widget.user_id)['latitude']['longitude']);
 
-    // try {
-    //   final loc.LocationData _locationResult = await location.getLocation();
-    //   await FirebaseFirestore.instance
-    //       .collection('Location')
-    //       .doc(FirebaseAuth.instance.currentUser!.uid)
-    //       .set({
-    //    // 'latitude': _locationResult.latitude,
-    //     //'longitude': _locationResult.longitude,
-    //     'Latitude':lat,
-    //     'Longitude': lng,
-    //     'User_Id': uid,
-    //     'user': user,
-    //     //'origin':placemarkFromCoordinates(_locationResult.latitude!,_locationResult.longitude!),
-    //     'origin':place1,
-    //     'destination':place2,
-    //   }, SetOptions(merge: true));
-    // } catch (e) {
-    //   print(e);
-    // }
-  }
+        LatLng(30.033333, 31.233334),
+    zoom: 14.4746,
+  );
 
   void _setMarker(LatLng point) {
     setState(() {
       _markers.add(
         Marker(
+          
           markerId: MarkerId('marker'),
           position: point,
+          infoWindow: InfoWindow(
+            title: "A",onTap: (){
+              
+                TextField(
+                        readOnly: true,
+                        textAlign: TextAlign.center,
+                       decoration: new InputDecoration(
+                            prefixIcon: Icon(
+                            Icons.place,
+                            color: Colors.blueGrey,
+                          ),
+    enabledBorder:  OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.blueGrey, width: 5.0),
+    ),
+    border: const OutlineInputBorder(),
+    labelStyle: new TextStyle(color: Colors.black,),
+   hintText: "A",
+  ),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            height: 0.01,
+                            color: Colors.black),
+                      );
+
+                },snippet: ""
+          ),
+          //icon:  BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),///-------
+          //icon:false,
           /*onTap: () {
           print("orginInput");
         //  var XR=Text('$point');
@@ -146,64 +137,102 @@ final User? user = auth.currentUser;
 
   void _setPolygon() {
     //final String polygonIdVal = 'polygon_$_polygonIdCounter';
-    _polygonIdCounter++;
+    //_polygonIdCounter++;
   }
 
   void _setPolyline(List<PointLatLng> points) {
+   
+    final String polylineIdVal = 'polyline_$_polylineIdCounter';
+   
+    
+      //3shan t3mli update li tlween el shwr3
+      _polylineIdCounter++;
+      TimeOfDay selectedTime = TimeOfDay.now();
+        setState(() {
+           
+     
+      _polylines.add(
+        Polyline(
+          polylineId: PolylineId(polylineIdVal),
+          
+          width: 5,
+          color: Colors.blue,
+          
+          points: points
+              .map(
+                (point) => LatLng(point.latitude, point.longitude),
+              )
+              .toList(),  
+        ),
+       
+    
+      );
+ });
 
+   // });
+  }
+
+void _reomvePolyline (List<PointLatLng> points){
+  final String polylineIdVal = 'polyline_$_polylineIdCounter';
+   _polylineIdCounter++;
+_polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounter');
+
+}
+
+
+ void _clearPolyline(List<PointLatLng> points) {
     final String polylineIdVal = 'polyline_$_polylineIdCounter';
     _polylineIdCounter++;
-setState(() {  //3shan t3mli update li tlween el shwr3
   
-
-    _polylines.add(
-      Polyline(
-        polylineId: PolylineId(polylineIdVal),
-        width: 5,
-        color: Colors.blue,
-        points: points
+     setState(() {
+       
+    
+    _polylines.clear(
+        );
+         _polylines.remove(Polyline(polylineId: PolylineId(polylineIdVal),points: points
             .map(
               (point) => LatLng(point.latitude, point.longitude),
             )
-            .toList(),
-      ),
-    );
-    });
+            .toList(),));
+     },);
   }
-
+  
+  TimeOfDay selectedTime = TimeOfDay.now();
+ int clear_polyline=0;
   @override
   Widget build(BuildContext context) {
     // ignore: unnecessary_new
     return new Scaffold(
       drawer: AppDrawer(),
-   
+
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Enter orgin and destination'),
         backgroundColor: Colors.blueGrey,
       ),
-     body:
-     // StreamBuilder(
-      // stream: FirebaseFirestore.instance.collection("Location").snapshots(),
-      // builder: ( context, AsyncSnapshot <QuerySnapshot> snapshot) {
-        // return
-           Column(
+      body:
+          // StreamBuilder(
+          // stream: FirebaseFirestore.instance.collection("Location").snapshots(),
+          // builder: ( context, AsyncSnapshot <QuerySnapshot> snapshot) {
+          // return
+          Column(
         children: [
           Row(
             children: [
               SingleChildScrollView(
                 child: Container(
-                  width: 312,
+                  width: 350,
                   child: Column(
                     children: [
                       Positioned(
-                        top: 20,
+                        //top: 20,
                         child: InkWell(
                           onTap: getPlaceService1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Card(
+                         // child: Padding(
+                          //  padding: const EdgeInsets.all(15),
+                            child:
+                             Card(
                               child: Container(
                                 padding: const EdgeInsets.all(0),
                                 width: double.infinity,
@@ -218,19 +247,16 @@ setState(() {  //3shan t3mli update li tlween el shwr3
                                 ),
                               ),
                             ),
-                          ),
+                         // ),
                         ),
                       ),
-
                       Positioned(
-                        top: 80,
+                       // top: 80,
                         child: InkWell(
                           //desitnation
-                          onTap:
-                              getPlaceService2
-                          ,
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
+                          onTap: getPlaceService2,
+                        //  child: Padding(
+                          //  padding: const EdgeInsets.all(15),
                             child: Card(
                               child: Container(
                                 padding: const EdgeInsets.all(0),
@@ -249,7 +275,7 @@ setState(() {  //3shan t3mli update li tlween el shwr3
                                 ),
                               ),
                             ),
-                          ),
+                        //  ),
                         ),
                       ),
                     ],
@@ -258,15 +284,92 @@ setState(() {  //3shan t3mli update li tlween el shwr3
               ),
               IconButton(
                 onPressed: () async {
-                  _getLocation();
-                  directions =
-                      await LocationService().getDirections(place1, place2);
+                  _requestPermission();
+                  //UpdateLocation();
+                  // _listenLocation_Trail();
+                  //UpdateLocation();
+                 // _listenLocation_Trail2();
+                  //_getLocation(); ///////////////////////
+                  // _getUserLocation();
+                  // _listenLocation();
+                        
 
-                  DistanceofLocation =
-                      await LocationService().getDistance(place1, place2);
-                  TimeofLocation =
-                      await LocationService().getTime(place1, place2);
 
+//directions['polyline_decoded'].remove();
+
+                  // if(directions['polyline_decoded']!=null || directions['polyline_decoded'].isNotempty()){
+                  //   _reomvePolyline(directions['polyline_decoded']);
+                  if(clear_polyline!=0){
+                    _clearPolyline(directions['polyline_decoded']);
+                    }
+                    clear_polyline=1;
+                      //    _markers.clear();
+                        ///  directions['polyline_decoded'].clear();
+                      //  directions['start_location']['lat'].clear();
+                      //     directions['start_location']['lng'].clear();
+                      //     directions['bounds_ne'].clear();
+                      //     directions['bounds_sw'].clear();
+                      //     directions['polyline_decoded'].clear();
+
+                      // }
+                       //}),
+                     //directions = null;
+                       print("Here $directions");
+
+                        directions = await LocationService().getDirections(place1, place2);
+                        DistanceofLocation = await LocationService().getDistance(place1, place2);
+                        TimeofLocation =await LocationService().getTime(place1, place2);
+                        
+                          TimeofLocation;
+                          DistanceofLocation;
+                          directions;
+                           setState(() {
+
+                          _goToPlace(
+                          directions['start_location']['lat'],
+                          directions['start_location']['lng'],
+                          directions['bounds_ne'],
+                          directions['bounds_sw'],
+                        );
+
+                        
+                        //   _goToPlace(
+                        //   directions['end_location']['lat'],
+                        //   directions['end_location']['lng'],
+                        //   directions['bounds_ne'],
+                        //   directions['bounds_sw'],
+                        // );
+                        //directions = null;
+                        print(1);
+                      print(directions["polyline_decoded"]);
+                        _setPolyline(
+                          directions['polyline_decoded']
+                        );
+                        
+                        });
+
+              /*    if(directions['polyline_decoded']!=null || directions['polyline_decoded'].isNotempty()){
+                          _clearPolyline(directions['polyline_decoded']);
+                          _markers.clear();
+                       }
+                  
+                  directions =await LocationService().getDirections(place1, place2);
+                  DistanceofLocation =await LocationService().getDistance(place1, place2);
+                 TimeofLocation =await LocationService().getTime(place1, place2);
+
+
+ // setState(() {
+
+                   LocationService().getDirections(place1, place2); 
+                    LocationService().getDistance(place1, place2);
+                    LocationService().getTime(place1, place2);
+
+                
+                   
+                 directions;
+                    DistanceofLocation;
+                    TimeofLocation;
+ 
                   _goToPlace(
                     directions['start_location']['lat'],
                     directions['start_location']['lng'],
@@ -276,13 +379,12 @@ setState(() {  //3shan t3mli update li tlween el shwr3
 
                   _setPolyline(
                     directions['polyline_decoded'],
-                  );
-                  setState(() {
-                    TimeofLocation;
-                  });
+                  );*/
+                
+            // });
                 },
                 icon: Icon(Icons.search),
-                color: Colors.pink,
+                color: Colors.blueGrey,
               ),
             ],
           ),
@@ -313,26 +415,54 @@ setState(() {  //3shan t3mli update li tlween el shwr3
               ),
             ],
           ),
+          Row(children: [
+        ElevatedButton(
+          
+                onPressed: () {
+                 // var timeText='';
+                  _selectTime(context);
+                },
+              child:  Text("time-selected: ${selectedTime.hour}:${selectedTime.minute}"),
+            ),
+           // Text("${selectedTime.hour}:${selectedTime.minute}"),
+        
+      //       showTimePicker(
+      //   context: context,
+      //   initialTime: selectedTime,
+      //   initialEntryMode: TimePickerEntryMode.input,
+      //   confirmText: "CONFIRM",
+      //   cancelText: "NOT NOW",
+      //     helpText: "BOOKING TIME",
+      // ),
+          ],),
           Expanded(
             child: GoogleMap(
               mapType: MapType.normal,
-              markers: _markers,
+              markers:
+                 
+                  Set.of(_markers),
+                //  Set<Marker>.of(markers.values), //defto
+             // myLocationButtonEnabled:true,
+             // myLocationEnabled:true,
+            //  trafficEnabled: true,
+           
+              //defto
               //title:"hello",
               polygons: _polygons,
               polylines: _polylines,
               initialCameraPosition: _kGooglePlex,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
+              // myLocationButtonEnabled: true,
+              
               // compassEnabled:true,
               //mapToolbarEnabled:true,
-               
+
               onMapCreated: (GoogleMapController controller) {
                 setState(() {
-        _controller.complete(controller);
-                
-                _added=true;
-    });
-              
+                  _controller.complete(controller);
+                  
+
+                 // _added = true;
+                });
               },
               onTap: (point) {
                 setState(() {
@@ -341,19 +471,18 @@ setState(() {  //3shan t3mli update li tlween el shwr3
                 });
               },
             ),
-          ),
+          ), 
         ],
       ),
       // },
 
-     //),
-  
+      //),
     );
   }
 
-
-
 /**********************functions********************************************************/
+
+//location on camera wa set marker
   Future<void> _goToPlace(
     double lat,
     double lng,
@@ -363,7 +492,7 @@ setState(() {  //3shan t3mli update li tlween el shwr3
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat, lng), zoom: 12),
+        CameraPosition(target: LatLng(lat, lng), zoom: 30), //zoom: 12
       ),
     );
 
@@ -373,7 +502,7 @@ setState(() {  //3shan t3mli update li tlween el shwr3
             southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
             northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
           ),
-          25),
+          30),
     );
     _setMarker(LatLng(lat, lng));
   }
@@ -411,7 +540,7 @@ setState(() {  //3shan t3mli update li tlween el shwr3
       },
     );
     await displayPrediction1(getplace1, ScaffoldMessenger.of(context));
-    print('i am palce to ${getplace1}');
+    print('i am palce1 to ${getplace1}');
   }
 
   Future<void> displayPrediction2(
@@ -432,6 +561,7 @@ setState(() {  //3shan t3mli update li tlween el shwr3
     final lng = geometry.location.lng;
     print('geometry hello2 ${p.description}');
     place2 = p.description!;
+
     messengerState.showSnackBar(
       SnackBar(
         content: Text('${p.description} - $lat/$lng'),
@@ -455,79 +585,63 @@ setState(() {  //3shan t3mli update li tlween el shwr3
     final geometry = detail.result.geometry!;
     //final lat = geometry.location.lat;
     //final lng = geometry.location.lng;
-     latit = geometry.location.lat;
-     long = geometry.location.lng;
- print('laaaaaaaaaaaaaaaat ${latit}');
- print('laaaaaaaaaaaaaaaat ${long}');
+    latit = geometry.location.lat;
+    long = geometry.location.lng;
+    print('laaaaaaaaaaaaaaaat ${latit}');
+    print('laaaaaaaaaaaaaaaat ${long}');
 
     print('geometry hello1 ${p.description}');
     place1 = p.description!;
 
     messengerState.showSnackBar(
       SnackBar(
-        content: Text('${p.description} - $geometry.location.lat/$geometry.location.lng'),
+        content: Text(
+            '${p.description} - $geometry.location.lat/$geometry.location.lng'),
       ),
     );
   }
 
-
 //request from user tracklive location
-_requestPermission() async{
-  var status = await Permission.location.request();
-  //var status = await Permission.location.status;
- //var status = Permission.location;
-  if(status.isGranted){
-    print('permission is granted!');
-  } else if(status.isDenied){
-    _requestPermission();
-  }else if(status.isPermanentlyDenied){
-    openAppSettings();
+  _requestPermission() async {
+    var status = await Permission.location.request();
+    //var status = await Permission.location.status;
+    //var status = Permission.location;
+    if (status.isGranted) {
+      print('permission is granted!');
+    } else if (status.isDenied) {
+      _requestPermission();
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+      print('isPermanentlyDenied');
+    }
   }
 
-}
+// //Stop live location
+//   _StopListeningLocation() {
+//     _locationSubscription?.cancel();
+//     setState(() {
+//       _locationSubscription = null;
+//     });
+//   }
 
- 
+//MaterialButton(
 
-//enable live location
-Future<void> _listenLocation()async{
-//List<Placemark> placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
-_locationSubscription = location.onLocationChanged.handleError((onError)  {
-print(onError);
-_locationSubscription?.cancel();
-setState(() {
-  _locationSubscription =null;
-});
-// ignore: unused_local_variable
-//placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
 
-}).listen((loc.LocationData currentlocation) async{ 
-  //placemarks = await placemarkFromCoordinates(currentlocation.latitude, currentlocation.longitude);
- // var lat = currentlocation.latitude;
- // var long= currentlocation.longitude;
-  await  FirebaseFirestore.instance
-          .collection('Location')
-          .doc('Traffic Prediction')
-          .set({
-        'latitude':currentlocation.latitude,
-        'longitude': currentlocation.longitude,
-        'User_Id': 'user!.uid',
-        'user': auth.currentUser,
-        'origin':placemarkFromCoordinates(currentlocation.latitude!,currentlocation.longitude!),
-      //  'destination'
-      }, SetOptions(merge: true)); 
-      
-});
-}
 
-//Stop live location
-_StopListeningLocation(){
- _locationSubscription?.cancel();
- setState(() {
-   _locationSubscription=null;
- });
-}
 
-  
+  _selectTime(BuildContext context) async {
+      final TimeOfDay? timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+        initialEntryMode: TimePickerEntryMode.dial,
+
+      );
+      if(timeOfDay != null && timeOfDay != selectedTime)
+        {
+          setState(() {
+            selectedTime = timeOfDay;
+          });
+        }
+  }
+
 } /////////endddd
-
-
