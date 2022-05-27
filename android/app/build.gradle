@@ -33,7 +33,7 @@ def keystoreProperties = new Properties()
    }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -73,4 +73,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
 }
