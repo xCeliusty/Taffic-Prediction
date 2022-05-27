@@ -24,7 +24,7 @@ class AppDrawer extends StatelessWidget {
             title: const Text("Dashboard"),
             onTap: () {
               // Navigator.of(context).pushNamed(FromTo.routeName);
-              //Navigator.pushNamed(context, '/FromTo');
+              Navigator.pushNamed(context, '/FromTo');
             },
           ),
           ListTile(
@@ -39,7 +39,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.remove_red_eye),
             title: const Text("view edit profile"),
             onTap: () {
-              Navigator.of(context).pushNamed(Editprofile.routeName);
+             Navigator.of(context).pushNamed(Editprofile.routeName);
             },
           ),
           ListTile(
