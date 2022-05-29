@@ -24,6 +24,8 @@ class _AuthFormState extends State<AuthForm> {
   String _phoneNumber = "";
   String _address = "";
 
+  bool isAdmin = false;
+
   void _submitForm() {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -230,16 +232,43 @@ class _AuthFormState extends State<AuthForm> {
                         onPressed: () async {
                           if (!_login) {
                             try {
-                              UserCredential userCredential = await FirebaseAuth
-                                  .instance
-                                  .createUserWithEmailAndPassword(
-                                      email: _email, password: _password);
+
+                              CollectionReference users = FirebaseFirestore.instance.collection('users');
+                              UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+
+                              // Bodda Start
+                              var currentUser = FirebaseAuth.instance.currentUser;
+                              var uidd = currentUser!.uid;
+                              FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(uidd)
+                                  .set({
+                                'uid': uidd,
+                                'username': _username,
+                                'email': _email,
+                                'phoneNumber': _phoneNumber,
+                                'address': _address,
+                                'image': "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                                'type': 1,
+                              });
+
+                              final docRef = FirebaseFirestore.instance.collection("users").doc(uidd);
+                              docRef.get().then(
+                                (DocumentSnapshot doc) {
+                                  final data = doc.data() as Map<String, dynamic>;
+                                  print(data);
+                                },
+                                onError: (e) => print("Error getting document: $e"),
+                              );
+
+                              
+                              // Bodda End
+                              
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'weak-password') {
                                 print('The password provided is too weak.');
                               } else if (e.code == 'email-already-in-use') {
-                                print(
-                                    'The account already exists for that email.');
+                                print('The account already exists for that email.');
                               }
                             } catch (e) {
                               print(e);
@@ -272,7 +301,7 @@ class _AuthFormState extends State<AuthForm> {
                                   .signInWithEmailAndPassword(
                                       email: _email, password: _password);
                               // Navigator.of(context).pushNamed(FromTo.routeName);
-                              Navigator.pushNamed(context, '/FromTo');
+                              // Navigator.pushNamed(context, '/FromTo');
 
                               // Navigator.pushNamed(context, '/Query');
                               if (_email == "admin@admin.com" &&
@@ -280,6 +309,33 @@ class _AuthFormState extends State<AuthForm> {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => AdminScreen(),
                                 ));
+                                var currentUser = FirebaseAuth.instance.currentUser;
+                                var uidd = currentUser!.uid;
+
+                                FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uidd)
+                                  .get()
+                                  .then((DocumentSnapshot documentSnapshot) {
+                                    print("x" + documentSnapshot.exists.toString());
+                                    if (documentSnapshot.exists) {
+                                      print("about: " + documentSnapshot['type'].toString());
+                                    }
+
+                                    if (documentSnapshot['type'] == 1) {
+                                      Navigator.pushNamed(context, '/FromTo');
+                                    } else if (documentSnapshot['type'] == 2) {
+                                      isAdmin = true;
+                                      Navigator.pushNamed(context, '/statistics');
+                                    }
+                                  });
+
+                                Stream documentStream = FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uidd)
+                                  .snapshots();
+
+                              // print(': obj : ' + documentStream.toString());
                               // else
                               // Navigator.of(context).pushNamed(FromTo.routeName);
                             } on FirebaseAuthException catch (e) {

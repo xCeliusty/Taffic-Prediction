@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:fastroute/trackingdirectionsmap/locationservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:geolocator/geolocator.dart';
+//import 'package:geolocator/geolocator.dart';
 //import 'package:firebase_core/firebase_core.dart';
 //import 'package:provider/provider.dart';
 import '../trackingdirectionsmap/secrets.dart';
@@ -10,18 +10,23 @@ import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../drawer/drawer.dart';
-import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_api_headers/google_api_headers.dart';/////////////////////////////////////////
 import 'package:google_maps_webservice/places.dart'; //Component(Component.country, 'Eg'
 import 'package:permission_handler/permission_handler.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart' as loc;
+//import 'package:habit_tracker/details.dart';
+//import 'package:intl/intl.dart';
 //import 'package:geocoding/geocoding.dart';
 //import 'package:geolocator/geolocator.dart';
-import 'dart:io' show Platform;
+//import 'dart:io' show Platform;
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+  
 
 
 //import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+//import 'package:geolocator/geolocator.dart';
 
 import 'package:geocoder2/geocoder2.dart';
 
@@ -38,6 +43,7 @@ class MapFromToState extends State<FromTo> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final loc.Location location = loc.Location(); 
   StreamSubscription<loc.LocationData>? _locationSubscription;
+   
   late var latit;
   late var long;
 
@@ -50,6 +56,7 @@ class MapFromToState extends State<FromTo> {
   var DistanceofLocation;
   var TimeofLocation;
  /* late*/ var directions; 
+ bool trackcurrentlocationWid=false;
 
   var originPlace;
 
@@ -140,6 +147,8 @@ Set<Marker> _markers = Set<Marker>();
     //_polygonIdCounter++;
   }
 
+
+// TimeOfDay selectedTime = TimeOfDay.now();
   void _setPolyline(List<PointLatLng> points) {
    
     final String polylineIdVal = 'polyline_$_polylineIdCounter';
@@ -147,7 +156,7 @@ Set<Marker> _markers = Set<Marker>();
     
       //3shan t3mli update li tlween el shwr3
       _polylineIdCounter++;
-      TimeOfDay selectedTime = TimeOfDay.now();
+     
         setState(() {
            
      
@@ -198,13 +207,39 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
   }
   
   TimeOfDay selectedTime = TimeOfDay.now();
+  late String selectDate, selectDay;
+  late int selected;
+  var Date;
+  bool trackLiveLocation=false;
+bool trafficEnabledflow=false;
+//   DateTime today = DateTime.now();
+//   List months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+// var currentDate = today.day;
+// var monthOfCurrentDate = months[today.month +1];
+// DateTime futureDate = DateTime.now().add(Duration(days: 5));
+// var dayOfFutureDate = futureDate.day;
+// var monthOfFutureDate = months[futureDate.month+1];
+
+
  int clear_polyline=0;
   @override
   Widget build(BuildContext context) {
     // ignore: unnecessary_new
     return new Scaffold(
       drawer: AppDrawer(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+   floatingActionButton:FloatingActionButton.extended(
+          icon: Icon(Icons.place_outlined),
+          label: Text("Live Location"),
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white, onPressed: () { 
 
+            //trackcurrentlocationWid=true;
+            getLiveLocation(); 
+            },
+        
+        ),
+        
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -316,12 +351,19 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
                      //directions = null;
                        print("Here $directions");
 
+
+                         
+                       getLiveLocation();
+
                         directions = await LocationService().getDirections(place1, place2);
                         DistanceofLocation = await LocationService().getDistance(place1, place2);
                         TimeofLocation =await LocationService().getTime(place1, place2);
                         
+                        setState(() {
                           TimeofLocation;
                           DistanceofLocation;
+                        });
+                          
                           directions;
                            setState(() {
 
@@ -404,12 +446,7 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
                             )
                           : Text(''),
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        Navigator.pushNamed(context, '/TrafficSummary');
-                      },
-                      child: Text("Check Traffic"),
-                    ),
+                   
                   ],
                 ),
               ),
@@ -424,6 +461,40 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
                 },
               child:  Text("time-selected: ${selectedTime.hour}:${selectedTime.minute}"),
             ),
+ ///Text('Selected date: $_selectedDate')    selected == null ? 'No select date' :'Selecte date $selectDate - $selectDay'
+            //   ElevatedButton(
+            //     onPressed: () {
+            //      // var timeText='';
+            //       _selectTime(context);
+            //     },
+            //   child:  Text('Selected date: ${_selectedDate}', style: TextStyle(fontStyle: FontStyle.italic),),
+            // ),
+         ElevatedButton(
+    onPressed: () {
+        DatePicker.showDatePicker(context,
+                              //showTitleActions: true,
+                              minTime: DateTime(2022, 5, 27),
+                              maxTime: DateTime(2022, 7, 30), onChanged: (date) {
+                               Date=date;
+                                // Date=date==null ?  "Today" : Date;
+                             //  date='2019-01-12';
+                             if(date==null){
+                               Date=DateTime(2022, 5, 27);
+                             }
+                            print('change $date');
+                          }, onConfirm: (date) {
+                            Date=date;
+                           
+                            print('confirm $date.day');
+                          }, currentTime: DateTime.now(), locale: LocaleType.en);
+    },
+    child: Text('${Date}',
+       // 'data${Date}'  
+       // ,
+        style: TextStyle(color: Colors.white),
+    )),
+
+            
            // Text("${selectedTime.hour}:${selectedTime.minute}"),
         
       //       showTimePicker(
@@ -435,6 +506,7 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
       //     helpText: "BOOKING TIME",
       // ),
           ],),
+         
           Expanded(
             child: GoogleMap(
               mapType: MapType.normal,
@@ -442,9 +514,9 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
                  
                   Set.of(_markers),
                 //  Set<Marker>.of(markers.values), //defto
-             // myLocationButtonEnabled:true,
-             // myLocationEnabled:true,
-            //  trafficEnabled: true,
+             //myLocationButtonEnabled:true,
+              myLocationEnabled:trackLiveLocation,
+             trafficEnabled: trafficEnabledflow,
            
               //defto
               //title:"hello",
@@ -551,8 +623,7 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
     }
     // get detail (lat/lng)
     final _places = GoogleMapsPlaces(
-      apiKey: Secrets.API_KEY,
-      apiHeaders: await const GoogleApiHeaders().getHeaders(),
+      apiKey: Secrets.API_KEY,   apiHeaders: await const GoogleApiHeaders().getHeaders(),
     );
 
     final detail = await _places.getDetailsByPlaceId(p.placeId!);
@@ -560,7 +631,10 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
     final lat = geometry.location.lat;
     final lng = geometry.location.lng;
     print('geometry hello2 ${p.description}');
-    place2 = p.description!;
+    setState(() {
+      place2 = p.description!;
+    });
+    
 
     messengerState.showSnackBar(
       SnackBar(
@@ -578,7 +652,7 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
     // get detail (lat/lng)
     final _places = GoogleMapsPlaces(
       apiKey: Secrets.API_KEY,
-      apiHeaders: await const GoogleApiHeaders().getHeaders(),
+     apiHeaders: await const GoogleApiHeaders().getHeaders(),
     );
 
     final detail = await _places.getDetailsByPlaceId(p.placeId!);
@@ -591,7 +665,10 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
     print('laaaaaaaaaaaaaaaat ${long}');
 
     print('geometry hello1 ${p.description}');
-    place1 = p.description!;
+    setState(() {
+       place1 = p.description!;
+    });
+   
 
     messengerState.showSnackBar(
       SnackBar(
@@ -643,5 +720,132 @@ _polylines.removeWhere((m) => m.polylineId.value == 'polyline_$_polylineIdCounte
           });
         }
   }
+
+void getLiveLocation(){
+   
+   setState(() {
+     trackLiveLocation=true;
+      trafficEnabledflow=true;
+   });
+ 
+location.enableBackgroundMode(enable: true);
+ GeoData data;
+    var currentlat;
+    var currentlong;
+    var i=0;
+//get cureent address & lat & long
+//f 10 seconds are passed AND* if the phone is moved at least 5 meters, give the location.
+//location.changeSettings(accuracy: loc.LocationAccuracy.balanced,interval: 1000); ///not sure ,distanceFilter: 2
+    _locationSubscription = location.onLocationChanged.handleError((onError) {
+      print("error in listen location${onError}");
+
+      _locationSubscription?.cancel();
+      setState(() {
+        _locationSubscription = null;
+      });
+    }).listen((loc.LocationData currentlocation) async {
+      //GeoData convert current lat long to address
+      data = await Geocoder2.getDataFromCoordinates(
+          latitude: currentlocation.latitude!,
+          longitude: currentlocation.longitude!,
+          googleMapApiKey: Secrets.API_KEY);
+  setState(() {
+    place1=data.address;
+  });
+      //Formated Address
+      print("the cureent address is------${data.address}");
+    
+     
+      currentlong = currentlocation.longitude;
+      currentlat = currentlocation.latitude;
+
+      print('the current live  lat is ${currentlocation.latitude}');
+      print('the current live long is ${currentlocation.longitude}');
+
+      setState(() async {  //8t change 
+        // if(currentlocation.isMock==true){
+
+        
+        if (_locationSubscription != null) {
+
+          
+         if(place1!=data.address) {
+          
+           setState(() async{
+      place1 = data.address;
+        //  directions = 
+        //   await LocationService().getDirections(place1, place2);
+        //  DistanceofLocation =
+        //    await LocationService().getDistance(place1, place2);
+        //  TimeofLocation =
+        //    await LocationService().getTime(place1, place2);
+
+         
+        //  setState(() {
+        //    TimeofLocation;
+        //     DistanceofLocation;
+        //    directions;
+        //  });
+
+        //  if(i!=1){   
+        //     _goToPlace(
+        //       directions['start_location']['lat'],
+        //       directions['start_location']['lng'],
+        //       directions['bounds_ne'],
+        //       directions['bounds_sw'],
+        //     );
+        //  }
+        //  i++;
+
+        //     _setPolyline(
+        //       directions['polyline_decoded'],
+        //     );
+          });
+         // }), );
+        }
+      };
+//}
+      });
+    });
+  }
+
+
+
+  /////////////////////////////////////////////////
+
+//enable live location
+  void _listenLocation_Trail() {
+    final User? user = auth.currentUser;
+    final uid = user!.uid;
+    GeoData data;
+
+//get cureent address & lat & long
+    _locationSubscription = location.onLocationChanged.handleError((onError) {
+      print("error in listen location${onError}");
+      _locationSubscription?.cancel();
+      setState(() {
+        _locationSubscription = null;
+      });
+    }).listen((loc.LocationData currentlocation) async {
+      //GeoData
+      data = await Geocoder2.getDataFromCoordinates(
+          latitude: currentlocation.latitude!,
+          longitude: currentlocation.longitude!,
+          googleMapApiKey: Secrets.API_KEY);
+
+      //Formated Address
+      print("the cureent address is------${data.address}");
+      print('the current live  lat is ${currentlocation.latitude}');
+      print('the current live long is ${currentlocation.longitude}');
+    });
+
+
+}
+
+
+  
+
+  
+
 
 } /////////endddd

@@ -13,6 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './screens/maps.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'screens/statistics.dart';
+import 'screens/read_features_csv.dart';
+import 'package:get/get.dart';
+//import 'package:weather_app/pages/home/home_screen.dart';
+import 'weather/pages/home/home_screen.dart';
+import 'weather/utils/Binding/HomeBinding.dart';
+
 
 Future<void> main() async {
   
@@ -35,28 +42,58 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: '',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         accentColor: Colors.white,
       ),
-      routes: {
+       initialRoute: '/',
+       routes: {
         AuthScreen.routeName: (BuildContext context) {
           return const AuthScreen();
         },
 
         
        Editprofile.routeName: (context) => Editprofile(),
-        
+         Statistics.routeName: (context) => Statistics(),
 
         '/TrafficSummary': (context) => TrafficSummaryScreen(),
         '/FromTo': (context) => FromTo(),
         '/Query': (context) => Query(),
-      },
-     home: const Splash(),
-    //   home: FromTo(),
+       },
+       getPages: [
+
+        GetPage(
+          name: '/weather',
+          page: () => HomeScreen(),
+          binding: HomeBinding(),
+
+        )
+      ],
+      home: Splash(),
     );
+//       routes: {
+//         AuthScreen.routeName: (BuildContext context) {
+//           return const AuthScreen();
+//         },
+
+        
+//        Editprofile.routeName: (context) => Editprofile(),
+//          Statistics.routeName: (context) => Statistics(),
+
+//         '/TrafficSummary': (context) => TrafficSummaryScreen(),
+//         '/FromTo': (context) => FromTo(),
+//         '/Query': (context) => Query(),
+//      //   page: () => HomeScreen(),
+// //  binding: HomeBinding(),
+        
+
+
+//       },
+     
+    //   home: FromTo(),
+    
   }
 }
 

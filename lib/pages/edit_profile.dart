@@ -3,7 +3,7 @@ import 'dart:io' as io;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
+//import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as p;
 import 'package:fastroute/drawer/drawer.dart';
@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 //import 'package:googleapis/vision/v1.dart';
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class Editprofile extends StatefulWidget {
   static const routeName = "/dashboard";
@@ -257,7 +258,7 @@ class _EditprofileState extends State<Editprofile> {
                             height: 0.01,
                             color: Colors.black),
                       ),
-                      
+
                       SizedBox(
                         height: 15,
                       ),

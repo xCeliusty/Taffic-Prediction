@@ -4,6 +4,8 @@ import 'package:fastroute/pages/edit_profile.dart';
 import 'package:fastroute/screens/maps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../weather/pages/home/home_screen.dart';
+import '../weather/utils/Binding/HomeBinding.dart';
 
 // import '../pages/calender.dart';
 
@@ -28,26 +30,26 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.dashboard),
-            title: const Text("Predict traffic"),
+            leading: const Icon(Icons.place_outlined),
+            title: const Text("Predict Traffic"),
             onTap: () {
               // Navigator.of(context).pushNamed(FromTo.routeName);
               Navigator.pushNamed(context, '/Query');
             },
           ),
           ListTile(
-            leading: const Icon(Icons.remove_red_eye),
-            title: const Text("view edit profile"),
+            leading: const Icon(Icons.person),
+            title: const Text("Profile Setting"),
             onTap: () {
              Navigator.of(context).pushNamed(Editprofile.routeName);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.exit_to_app),
-            title: const Text("Calender"),
+            leading: const Icon(Icons.air),
+            title: const Text("Weather"),
             onTap: () {
               // Navigator.of(context).pushNamed(Calender.routeName);
-              Navigator.pushNamed(context, '/Calender');
+              Navigator.pushNamed(context,'/weather' );
             },
           ),
           ListTile(
