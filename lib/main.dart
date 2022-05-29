@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
 
         )
       ],
-      home: Splash(),
+      home: Statistics(),
     );
 //       routes: {
 //         AuthScreen.routeName: (BuildContext context) {
@@ -96,4 +96,16 @@ class MyApp extends StatelessWidget {
     
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
