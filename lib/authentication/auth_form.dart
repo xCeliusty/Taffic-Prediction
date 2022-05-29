@@ -236,7 +236,7 @@ class _AuthFormState extends State<AuthForm> {
                               CollectionReference users = FirebaseFirestore.instance.collection('users');
                               UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
 
-                              // Bodda Start
+                              
                               var currentUser = FirebaseAuth.instance.currentUser;
                               var uidd = currentUser!.uid;
                               FirebaseFirestore.instance
@@ -262,7 +262,7 @@ class _AuthFormState extends State<AuthForm> {
                               );
 
                               
-                              // Bodda End
+                              // 
                               
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'weak-password') {

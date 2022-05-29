@@ -29,8 +29,9 @@ class TrafficService extends ChangeNotifier {
       var allData = jsonDecode(utf8.decode(response.bodyBytes));
       print('Response Ok');
 
-      Traffic traffic = Traffic.fromJson(allData);
+      Traffic traffic = Traffic.fromJson(allData);//object
       _traffic.add(traffic);
+      //
 
       _isLoaded = true;
       notifyListeners();

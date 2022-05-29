@@ -29,7 +29,7 @@ Future<void> main() async {
 
   runApp(
     MultiProvider(
-      providers: [
+      providers: [//attributes
         ChangeNotifierProvider(create: (_) => TrafficService()),
       ],
       child: const MyApp(),
